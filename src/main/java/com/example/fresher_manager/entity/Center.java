@@ -1,5 +1,6 @@
 package com.example.fresher_manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,10 +42,9 @@ public class Center {
     @OneToMany(mappedBy = "newCenter")
     private List<History> histories;
 
-    @JsonIgnoreProperties("centers")
-    @ManyToOne
-    @JoinColumn(name = "management_id")
-    private Management management;
+    @JsonBackReference
+    @OneToMany(mappedBy = "center")
+    private List<Management> managements;
 
     @OneToMany(mappedBy = "center")
     private List<Course> courses;

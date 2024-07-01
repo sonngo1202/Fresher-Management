@@ -1,14 +1,21 @@
 package com.example.fresher_manager.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Management")
+@Data
 public class Management extends Record{
 
-    @OneToMany(mappedBy = "management")
-    private List<Center> centers;
+    @ManyToOne
+    @JoinColumn(name = "center_id")
+    private Center center;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
 }
