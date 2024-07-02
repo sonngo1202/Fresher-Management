@@ -9,8 +9,10 @@ public interface CenterService {
     List<Center> getAll();
     boolean create(CenterRequest centerRequest);
     boolean delete(Long id);
-    boolean update(CenterRequest centerRequest);
+    boolean update(Long id, CenterRequest centerRequest);
+    boolean changeManager(Long id, Long manager_id);
     boolean assignFresherToCenter(Long fresher_id, Long id);
     boolean merge();
     void validateCenter(CenterRequest centerRequest);
+    Center findCenterById(Long id);
 }

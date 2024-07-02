@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
     List<Manager> findAllByStatusTrue();
+    boolean existsByIdAndStatusTrue(Long id);
 }

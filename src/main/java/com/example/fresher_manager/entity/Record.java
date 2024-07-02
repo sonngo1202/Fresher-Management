@@ -15,6 +15,11 @@ public class Record {
     @Column(name = "start_date", nullable = false)
     private Date startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date", nullable = true)
     private Date endDate;
+
+    @PrePersist
+    protected void onCreate(){
+        this.startDate = new Date();
+    }
 }

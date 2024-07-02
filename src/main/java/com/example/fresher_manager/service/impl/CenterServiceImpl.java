@@ -5,7 +5,6 @@ import com.example.fresher_manager.entity.Center;
 import com.example.fresher_manager.entity.Management;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.CenterRepository;
-import com.example.fresher_manager.repository.ManagementRepository;
 import com.example.fresher_manager.service.AreaService;
 import com.example.fresher_manager.service.CenterService;
 import com.example.fresher_manager.service.ManagementService;
@@ -56,12 +55,46 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        Center center = findCenterById(id);
+        center.setStatus(false);
+        centerRepository.save(center);
+        return true;
     }
 
     @Override
-    public boolean update(CenterRequest centerRequest) {
-        return false;
+    @Transactional
+    public boolean update(Long id, CenterRequest centerRequest) {
+        Center center = findCenterById(id);
+
+        validateCenter(centerRequest);
+
+        center.setName(centerRequest.getName());
+        center.setAddress(centerRequest.getAddress());
+        center.setEmail(centerRequest.getEmail());
+        center.setPhone(centerRequest.getPhone());
+        center.setArea(areaService.get(centerRequest.getAreaId()));
+
+        centerRepository.save(center);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean changeManager(Long id, Long manager_id) {
+        Center center = findCenterById(id);
+
+        if (!managerService.existsById(manager_id)) {
+            throw new ResourceNotFoundException("Manager not found with id: " + manager_id);
+        }
+
+        Management management = new Management();
+        management.setCenter(center);
+        management.setManager(managerService.get(manager_id));
+
+        managementService.save(management);
+
+        return true;
     }
 
     @Override
@@ -83,5 +116,11 @@ public class CenterServiceImpl implements CenterService {
         if (!managerService.existsById(centerRequest.getManagerId())) {
             throw new ResourceNotFoundException("Manager not found with id: " + centerRequest.getManagerId());
         }
+    }
+
+    @Override
+    public Center findCenterById(Long id) {
+        return centerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
     }
 }

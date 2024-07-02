@@ -19,6 +19,6 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public boolean existsById(Long id) {
-        return areaRepository.existsById(id);
+        return areaRepository.existsByIdAndStatusTrue(id);
     }
 }

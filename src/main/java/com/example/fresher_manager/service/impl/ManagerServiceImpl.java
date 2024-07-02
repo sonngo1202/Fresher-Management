@@ -41,7 +41,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public boolean existsById(Long id) {
-        return managerRepository.existsById(id);
+        return managerRepository.existsByIdAndStatusTrue(id);
     }
 
 }
