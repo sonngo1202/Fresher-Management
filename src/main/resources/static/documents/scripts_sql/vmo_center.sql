@@ -32,9 +32,11 @@ CREATE TABLE `center` (
   `area_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK9ntt4q0n3w4lywq1k9xveiyo8` (`name`),
+  UNIQUE KEY `UKp2t5cabht55ro6b7070bahd7p` (`phone`),
+  UNIQUE KEY `UKmldhpkty5u947r5s4po103gvi` (`email`),
   KEY `FK2y8h5v6omi4yjwp3cfe6nh4d0` (`area_id`),
   CONSTRAINT `FK2y8h5v6omi4yjwp3cfe6nh4d0` FOREIGN KEY (`area_id`) REFERENCES `area` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +45,7 @@ CREATE TABLE `center` (
 
 LOCK TABLES `center` WRITE;
 /*!40000 ALTER TABLE `center` DISABLE KEYS */;
-INSERT INTO `center` VALUES (7,'Washington','ct1@vmo.com','CT01','0123456780',_binary '',1);
+INSERT INTO `center` VALUES (7,'Washington','ct1@vmo.com','CT01','0123456781',_binary '',1),(8,'Tokyo','ct2@vmo.com','CT02','012349877',_binary '',2);
 /*!40000 ALTER TABLE `center` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-02 21:54:50
+-- Dump completed on 2024-07-03 16:42:12

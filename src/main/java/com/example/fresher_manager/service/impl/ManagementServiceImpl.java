@@ -6,6 +6,8 @@ import com.example.fresher_manager.service.ManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class ManagementServiceImpl implements ManagementService {
@@ -14,6 +16,14 @@ public class ManagementServiceImpl implements ManagementService {
 
     @Override
     public boolean save(Management management) {
+        managementRepository.save(management);
+        return true;
+    }
+
+    @Override
+    public boolean update(Long centerId, Long managerId) {
+        Management management = managementRepository.findByCenterIdAndManagerId(centerId, managerId);
+        management.setEndDate(new Date());
         managementRepository.save(management);
         return true;
     }

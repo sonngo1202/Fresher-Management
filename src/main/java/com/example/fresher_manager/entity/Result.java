@@ -22,10 +22,10 @@ public class Result {
     @Column(name = "testDateTime", nullable = false)
     private LocalDateTime testDateTime;
 
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private float score;
 
-    @Column(name = "comment")
+    @Column(name = "comment", nullable = false)
     private String comment;
 
     @ManyToOne

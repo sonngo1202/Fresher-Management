@@ -1,11 +1,14 @@
 package com.example.fresher_manager.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "Record")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Data
 public class Record {
 
     @Id

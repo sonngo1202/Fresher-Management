@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "650f4956-06f7-496d-82af-09ac6f858154",
 		"name": "VMO",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "36593433"
 	},
 	"item": [
@@ -23,7 +23,16 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/auth/login"
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
 					},
 					"response": []
 				},
@@ -41,7 +50,16 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/auth/refresh-token"
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
 					},
 					"response": []
 				}
@@ -51,13 +69,17 @@
 			"name": "Manager",
 			"item": [
 				{
-					"name": "add",
+					"name": "Add",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{authToken}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -70,22 +92,44 @@
 								}
 							}
 						},
-						"url": "{{baseUrl}}/manager/add"
+						"url": {
+							"raw": "{{baseUrl}}/manager/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"manager",
+								"add"
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAll",
+					"name": "GetAll",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{authToken}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseUrl}}/manager/all"
+						"url": {
+							"raw": "{{baseUrl}}/manager/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"manager",
+								"all"
+							]
+						}
 					},
 					"response": []
 				}
@@ -99,37 +143,63 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{authToken}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"CT01\",\r\n    \"address\":\"Washington\",\r\n    \"phone\":\"0123456789\",\r\n    \"email\":\"ct1@vmo.com\",\r\n    \"managerId\":\"8\",\r\n    \"areaId\":\"1\"\r\n}",
+							"raw": "{\r\n    \"name\":\"CT02\",\r\n    \"address\":\"Tokyo\",\r\n    \"phone\":\"012349877\",\r\n    \"email\":\"ct2@vmo.com\",\r\n    \"managerId\":\"8\",\r\n    \"areaId\":\"2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{baseUrl}}/center/add"
+						"url": {
+							"raw": "{{baseUrl}}/center/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"add"
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "getAll",
+					"name": "GetAll",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{authToken}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
-						"url": "{{baseUrl}}/center/all"
+						"url": {
+							"raw": "{{baseUrl}}/center/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"all"
+							]
+						}
 					},
 					"response": []
 				},
@@ -138,21 +208,272 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{authToken}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "{{baseUrl}}/center/delete/7"
+						"url": {
+							"raw": "{{baseUrl}}/center/7/delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"7",
+								"delete"
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "Update",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"CT01\",\r\n    \"address\":\"Washington\",\r\n    \"phone\":\"0123456781\",\r\n    \"email\":\"ct1@vmo.com\",\r\n    \"managerId\":\"8\",\r\n    \"areaId\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/center/7/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"7",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangeManager",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/center/7/change-manager/11",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"7",
+								"change-manager",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddCourse",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2024-07-01\",\r\n    \"endDate\":\"2024-08-20\",\r\n    \"des\":\"Global\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/center/8/add-course",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"8",
+								"add-course"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/center/assign/15/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"center",
+								"assign",
+								"15",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fresher",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"Tam\",\r\n    \"lastname\":\"Nguyen\",\r\n    \"email\":\"tamnguyen@gmail.com\",\r\n    \"phone\":\"0654453256\",\r\n    \"dob\":\"2002-01-12\",\r\n    \"username\":\"nguyentam\",\r\n    \"password\":\"@Tam12345\",\r\n    \"code\": \"NT003\",\r\n    \"languageId\": \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fresher/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fresher",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/fresher/12/delete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fresher",
+								"12",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"Anh\",\r\n    \"lastname\":\"Pham\",\r\n    \"email\":\"anhpham@gmail.com\",\r\n    \"phone\":\"0789452143\",\r\n    \"dob\":\"2002-07-01\",\r\n    \"languageId\": \"10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/fresher/13/update",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"fresher",
+								"13",
+								"update"
+							]
+						}
 					},
 					"response": []
 				}

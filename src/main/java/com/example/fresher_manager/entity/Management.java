@@ -1,6 +1,7 @@
 package com.example.fresher_manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Data
 public class Management extends Record{
 
+    @JsonIgnoreProperties("courses")
     @ManyToOne
     @JoinColumn(name = "center_id")
     private Center center;

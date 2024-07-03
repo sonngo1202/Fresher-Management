@@ -1,14 +1,10 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.dto.CenterRequest;
-import com.example.fresher_manager.entity.Center;
-import com.example.fresher_manager.entity.Management;
+import com.example.fresher_manager.entity.*;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.CenterRepository;
-import com.example.fresher_manager.service.AreaService;
-import com.example.fresher_manager.service.CenterService;
-import com.example.fresher_manager.service.ManagementService;
-import com.example.fresher_manager.service.ManagerService;
+import com.example.fresher_manager.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +20,9 @@ public class CenterServiceImpl implements CenterService {
     private final AreaService areaService;
     private final ManagerService managerService;
     private final ManagementService managementService;
+    private final CourseService courseService;
+    private final FresherService fresherService;
+    private final EnrollmentService enrollmentService;
 
     @Override
     public List<Center> getAll() {
@@ -81,30 +80,59 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     @Transactional
-    public boolean changeManager(Long id, Long manager_id) {
+    public boolean changeManager(Long id, Long managerId) {
         Center center = findCenterById(id);
 
-        if (!managerService.existsById(manager_id)) {
-            throw new ResourceNotFoundException("Manager not found with id: " + manager_id);
+        if (!managerService.existsById(managerId)) {
+            throw new ResourceNotFoundException("Manager not found with id: " + managerId);
         }
 
-        Management management = new Management();
-        management.setCenter(center);
-        management.setManager(managerService.get(manager_id));
+        Manager manager = managerService.getActiveManagerByCenterId(center.getId());
 
-        managementService.save(management);
+        managementService.update(center.getId(), manager.getId());
+
+        Management newManagement = new Management();
+        newManagement.setCenter(center);
+        newManagement.setManager(managerService.get(managerId));
+
+        managementService.save(newManagement);
 
         return true;
     }
 
     @Override
-    public boolean assignFresherToCenter(Long fresher_id, Long id) {
-        return false;
+    public boolean addCourse(Long id, Course course) {
+        Center center = findCenterById(id);
+        course.setCenter(center);
+        courseService.save(course);
+        return true;
+    }
+
+    @Override
+    public boolean assignFresherToCenter(Long fresherId, Long courseId) {
+        Fresher fresher = fresherService.findById(fresherId);
+        Course course = courseService.findById(courseId);
+
+        Enrollment enrollment = new Enrollment();
+        enrollment.setFresher(fresher);
+        enrollment.setCourse(course);
+        enrollment.setStartDate(course.getStartDate());
+        enrollment.setEndDate(course.getEndDate());
+
+        enrollmentService.save(enrollment);
+
+        return true;
     }
 
     @Override
     public boolean merge() {
         return false;
+    }
+
+    @Override
+    public Center findCenterById(Long id) {
+        return centerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
     }
 
     @Override
@@ -116,11 +144,5 @@ public class CenterServiceImpl implements CenterService {
         if (!managerService.existsById(centerRequest.getManagerId())) {
             throw new ResourceNotFoundException("Manager not found with id: " + centerRequest.getManagerId());
         }
-    }
-
-    @Override
-    public Center findCenterById(Long id) {
-        return centerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
     }
 }

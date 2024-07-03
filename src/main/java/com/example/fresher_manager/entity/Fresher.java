@@ -8,8 +8,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Fresher")
+@Table(name = "Fresher", uniqueConstraints = {@UniqueConstraint(columnNames = "code")})
 @DiscriminatorValue("FRESHER")
+@Data
 public class Fresher extends User{
     @Transient
     private float avg;
@@ -23,4 +24,13 @@ public class Fresher extends User{
 
     @OneToMany(mappedBy = "fresher")
     private List<Result> results;
+
+    public float calculateAvgScore(){
+        if(results.size() == 3){
+            this.avg = 0;
+            for(Result result : results) this.avg += result.getScore();
+            return this.avg;
+        }
+        return -1;
+    }
 }

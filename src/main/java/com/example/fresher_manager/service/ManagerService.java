@@ -9,4 +9,5 @@ public interface ManagerService {
     List<Manager> getAll();
     Manager get(Long id);
     boolean existsById(Long id);
+    Manager getActiveManagerByCenterId(Long centerId);
 }

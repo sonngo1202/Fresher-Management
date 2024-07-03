@@ -4,11 +4,13 @@ import com.example.fresher_manager.dto.BearerToken;
 import com.example.fresher_manager.dto.LoginRequest;
 import com.example.fresher_manager.dto.TokenRefreshRequest;
 import com.example.fresher_manager.entity.Admin;
+import com.example.fresher_manager.entity.User;
+import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
+import com.example.fresher_manager.exception.error.UsernameAlreadyExistsException;
 import com.example.fresher_manager.repository.UserRepository;
 import com.example.fresher_manager.security.CustomUserDetailsService;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.AuthService;
-import com.example.fresher_manager.service.ValidateUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
     private final CustomUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
-    private final ValidateUserService validateUserService;
 
     @Override
     public void savedAdmin() {
@@ -41,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         admin.setPhone("0562202977");
         admin.setUsername("ngoson");
         admin.setPassword(passwordEncoder.encode("@Son12345"));
-        validateUserService.validateUser(admin);
+        validateUser(admin);
         userRepository.save(admin);
     }
 
@@ -67,6 +68,16 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = tokenRefreshRequest.getRefreshToken();
         String newAccessToken =  jwtTokenUtil.generateAccessTokenFromRefreshToken(refreshToken);
         return new BearerToken(newAccessToken, refreshToken);
+    }
+
+    @Override
+    public void validateUser(User user) {
+        if(userRepository.findByUsername(user.getUsername()) != null){
+            throw new UsernameAlreadyExistsException("Username is already taken!");
+        }
+        if(userRepository.findByEmail(user.getEmail()) != null){
+            throw new EmailAlreadyExistsException("Email is already taken!");
+        }
     }
 
 }

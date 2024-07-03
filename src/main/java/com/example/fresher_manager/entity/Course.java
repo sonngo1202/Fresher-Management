@@ -1,6 +1,7 @@
 package com.example.fresher_manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Course")
+@Data
 public class Course {
 
     @Id

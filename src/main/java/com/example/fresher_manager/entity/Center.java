@@ -9,7 +9,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Center", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@Table(name = "Center", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name"),
+        @UniqueConstraint(columnNames = "phone"),
+        @UniqueConstraint(columnNames = "email")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

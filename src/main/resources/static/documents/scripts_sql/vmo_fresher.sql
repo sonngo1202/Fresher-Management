@@ -27,6 +27,7 @@ CREATE TABLE `fresher` (
   `code` varchar(255) NOT NULL,
   `language_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UKa4i64r0f7yik0moke9penvtgd` (`code`),
   KEY `FK2vk7p2wu3872e0y3rumli5abb` (`language_id`),
   CONSTRAINT `FK2vk7p2wu3872e0y3rumli5abb` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
   CONSTRAINT `FKt7nfbnq2iulmm3iqd22d6le5q` FOREIGN KEY (`id`) REFERENCES `user` (`id`)
@@ -39,6 +40,7 @@ CREATE TABLE `fresher` (
 
 LOCK TABLES `fresher` WRITE;
 /*!40000 ALTER TABLE `fresher` DISABLE KEYS */;
+INSERT INTO `fresher` VALUES (13,'PA001',2),(14,'HL002',1),(15,'NT003',4);
 /*!40000 ALTER TABLE `fresher` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-02 21:54:50
+-- Dump completed on 2024-07-03 16:42:12
