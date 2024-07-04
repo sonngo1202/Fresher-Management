@@ -24,27 +24,9 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
-
-
-    @Override
-    public void savedAdmin() {
-        Admin admin = new Admin();
-        admin.setFirstname("Son");
-        admin.setLastname("Ngo");
-        admin.setEmail("sonngo@gmail.com");
-        admin.setDob(java.sql.Date.valueOf(LocalDate.of(2002, 2, 12)));
-        admin.setPhone("0562202977");
-        admin.setUsername("ngoson");
-        admin.setPassword(passwordEncoder.encode("@Son12345"));
-        validateUser(admin);
-        userRepository.save(admin);
-    }
 
     @Override
     public BearerToken login(LoginRequest loginRequestDTO) {
@@ -70,14 +52,5 @@ public class AuthServiceImpl implements AuthService {
         return new BearerToken(newAccessToken, refreshToken);
     }
 
-    @Override
-    public void validateUser(User user) {
-        if(userRepository.findByUsername(user.getUsername()) != null){
-            throw new UsernameAlreadyExistsException("Username is already taken!");
-        }
-        if(userRepository.findByEmail(user.getEmail()) != null){
-            throw new EmailAlreadyExistsException("Email is already taken!");
-        }
-    }
 
 }

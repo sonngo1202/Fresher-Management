@@ -17,12 +17,12 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("/tokens")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequestDTO){
         return ResponseEntity.ok(authService.login(loginRequestDTO));
     }
 
-    @PostMapping("/refresh-token")
+    @PostMapping("/tokens/refresh")
     public ResponseEntity<?> refreshAccessToken(@RequestBody TokenRefreshRequest tokenRefreshRequest){
         return ResponseEntity.ok(authService.refreshAccessToken(tokenRefreshRequest));
     }

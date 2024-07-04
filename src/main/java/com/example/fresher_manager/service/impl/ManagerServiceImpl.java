@@ -1,10 +1,12 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Manager;
+import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.ManagerRepository;
-import com.example.fresher_manager.repository.UserRepository;
-import com.example.fresher_manager.service.AuthService;
 import com.example.fresher_manager.service.ManagerService;
+import com.example.fresher_manager.validator.ManagerValidator;
+import com.example.fresher_manager.validator.impl.EmailValidator;
+import com.example.fresher_manager.validator.impl.PhoneValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,33 +17,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
 
-    private final UserRepository userRepository;
-    private final AuthService authService;
-    private final PasswordEncoder passwordEncoder;
     private final ManagerRepository managerRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final ManagerValidator managerValidator;
 
     @Override
-    public boolean add(Manager manager) {
-        authService.validateUser(manager);
+    public boolean save(Manager manager) {
+        managerValidator.validateUsername(manager.getUsername());
+        managerValidator.validateEmail(manager.getEmail());
+        managerValidator.validatePhone(manager.getPhone());
+
         manager.setPassword(passwordEncoder.encode(manager.getPassword()));
-        userRepository.save(manager);
+        managerRepository.save(manager);
         return true;
     }
 
+
     @Override
-    public List<Manager> getAll() {
+    public Manager findById(Long id) {
+        return managerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id: " + id));
+    }
+
+    @Override
+    public List<Manager> findAll() {
         return managerRepository.findAllByStatusTrue();
     }
 
-    @Override
-    public Manager get(Long id) {
-        return managerRepository.getById(id);
-    }
 
-    @Override
-    public boolean existsById(Long id) {
-        return managerRepository.existsByIdAndStatusTrue(id);
-    }
 
     @Override
     public Manager getActiveManagerByCenterId(Long centerId) {

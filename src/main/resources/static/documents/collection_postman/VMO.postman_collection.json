@@ -24,13 +24,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/auth/login",
+							"raw": "{{baseUrl}}/auth/tokens",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"auth",
-								"login"
+								"tokens"
 							]
 						}
 					},
@@ -51,13 +51,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/auth/refresh-token",
+							"raw": "{{baseUrl}}/auth/tokens/refresh",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"auth",
-								"refresh-token"
+								"tokens",
+								"refresh"
 							]
 						}
 					},
@@ -93,13 +94,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/manager/add",
+							"raw": "{{baseUrl}}/managers",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"manager",
-								"add"
+								"managers"
 							]
 						}
 					},
@@ -121,13 +121,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/manager/all",
+							"raw": "{{baseUrl}}/managers",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"manager",
-								"all"
+								"managers"
 							]
 						}
 					},
@@ -163,13 +162,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/center/add",
+							"raw": "{{baseUrl}}/centers",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
-								"add"
+								"centers"
 							]
 						}
 					},
@@ -191,13 +189,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/center/all",
+							"raw": "{{baseUrl}}/centers",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
-								"all"
+								"centers"
 							]
 						}
 					},
@@ -219,14 +216,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/center/7/delete",
+							"raw": "{{baseUrl}}/centers/7",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
-								"7",
-								"delete"
+								"centers",
+								"7"
 							]
 						}
 					},
@@ -257,44 +253,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/center/7/update",
+							"raw": "{{baseUrl}}/centers/7",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
-								"7",
-								"update"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ChangeManager",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/center/7/change-manager/11",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"center",
-								"7",
-								"change-manager",
-								"11"
+								"centers",
+								"7"
 							]
 						}
 					},
@@ -325,14 +290,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/center/8/add-course",
+							"raw": "{{baseUrl}}/centers/8/courses",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
+								"centers",
 								"8",
-								"add-course"
+								"courses"
 							]
 						}
 					},
@@ -354,15 +319,16 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/center/assign/15/2",
+							"raw": "{{baseUrl}}/centers/courses/2/freshers/15",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"center",
-								"assign",
-								"15",
-								"2"
+								"centers",
+								"courses",
+								"2",
+								"freshers",
+								"15"
 							]
 						}
 					},
@@ -390,7 +356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\":\"Tam\",\r\n    \"lastname\":\"Nguyen\",\r\n    \"email\":\"tamnguyen@gmail.com\",\r\n    \"phone\":\"0654453256\",\r\n    \"dob\":\"2002-01-12\",\r\n    \"username\":\"nguyentam\",\r\n    \"password\":\"@Tam12345\",\r\n    \"code\": \"NT003\",\r\n    \"languageId\": \"4\"\r\n}",
+							"raw": "{\r\n    \"firstname\":\"Tham\",\r\n    \"lastname\":\"Tran\",\r\n    \"email\":\"thamtran@gmail.com\",\r\n    \"phone\":\"0654450987\",\r\n    \"dob\":\"2002-08-15\",\r\n    \"username\":\"trantham\",\r\n    \"password\":\"@Tham12345\",\r\n    \"code\": \"TT004\",\r\n    \"language\":{\r\n        \"id\":\"5\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -398,13 +364,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/fresher/add",
+							"raw": "{{baseUrl}}/freshers",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"fresher",
-								"add"
+								"freshers"
 							]
 						}
 					},
@@ -426,14 +391,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/fresher/12/delete",
+							"raw": "{{baseUrl}}/freshers/12",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"fresher",
-								"12",
-								"delete"
+								"freshers",
+								"12"
 							]
 						}
 					},
@@ -456,7 +420,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstname\":\"Anh\",\r\n    \"lastname\":\"Pham\",\r\n    \"email\":\"anhpham@gmail.com\",\r\n    \"phone\":\"0789452143\",\r\n    \"dob\":\"2002-07-01\",\r\n    \"languageId\": \"10\"\r\n}",
+							"raw": "{\r\n    \"firstname\":\"Tham\",\r\n    \"lastname\":\"Tran\",\r\n    \"email\":\"thamtran@gmail.com\",\r\n    \"phone\":\"0654450987\",\r\n    \"dob\":\"2002-08-15\",\r\n    \"username\":null,\r\n    \"password\":null,\r\n    \"code\": null,\r\n    \"language\":{\r\n        \"id\":\"5\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -464,14 +428,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/fresher/13/update",
+							"raw": "{{baseUrl}}/freshers/13",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"fresher",
-								"13",
-								"update"
+								"freshers",
+								"13"
 							]
 						}
 					},

@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/manager")
+@RequestMapping("/managers")
 public class ManagerController {
     private final ManagerService managerService;
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<?> add(@RequestBody Manager manager){
-        managerService.add(manager);
+        managerService.save(manager);
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<?> getALl(){
-        return ResponseEntity.ok(managerService.getAll());
+        return ResponseEntity.ok(managerService.findAll());
     }
 
 }

@@ -1,9 +1,6 @@
 package com.example.fresher_manager.exception;
 
-import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
-import com.example.fresher_manager.exception.error.InvalidJwtTokenException;
-import com.example.fresher_manager.exception.error.ResourceNotFoundException;
-import com.example.fresher_manager.exception.error.UsernameAlreadyExistsException;
+import com.example.fresher_manager.exception.error.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,8 +47,41 @@ public class ControllerExceptionHandler {
         return message;
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
+    @ExceptionHandler(FresherCodeAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleFresherCodeAlreadyExistsException(FresherCodeAlreadyExistsException ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return message;
+    }
+
+    @ExceptionHandler(PhoneAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handlePhoneAlreadyExistsException(PhoneAlreadyExistsException ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return message;
+    }
+
+    @ExceptionHandler(CenterNameAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleCenterNameAlreadyExistsException(CenterNameAlreadyExistsException ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return message;
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request){
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
@@ -88,6 +118,17 @@ public class ControllerExceptionHandler {
     public ErrorMessage handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request){
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return message;
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleValidationException(ValidationException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));

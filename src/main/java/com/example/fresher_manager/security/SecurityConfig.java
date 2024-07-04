@@ -3,6 +3,7 @@ package com.example.fresher_manager.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,14 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/login", "/auth/refresh-token").permitAll()
-                .antMatchers("/fresher/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/fresher/info").hasRole("FRESHER")
-                .antMatchers("/center/**").hasRole("ADMIN")
-                .antMatchers("/center/list").hasRole("MANAGER")
-                .antMatchers("/stat/**").hasRole("ADMIN")
-                .antMatchers("/stat/fresher-score").hasRole("MANAGER")
-                .antMatchers("/manager/**").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/auth/tokens", "/auth/tokens/refresh").permitAll()
+                .antMatchers(HttpMethod.GET, "/centers").permitAll()
+                .antMatchers("/freshers/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/freshers/{id}").hasRole("FRESHER")
+                .antMatchers("/centers/**").hasRole("ADMIN")
+                .antMatchers("/stats/**").hasRole("ADMIN")
+                .antMatchers("/stat/fresher-score").hasRole("MANAGER")//
+                .antMatchers("/managers/**").hasRole("ADMIN")
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -5,6 +5,7 @@ import com.example.fresher_manager.entity.*;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.CenterRepository;
 import com.example.fresher_manager.service.*;
+import com.example.fresher_manager.validator.CenterValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,8 @@ public class CenterServiceImpl implements CenterService {
     private final FresherService fresherService;
     private final EnrollmentService enrollmentService;
 
+    private final CenterValidator centerValidator;
+
     @Override
     public List<Center> getAll() {
         return centerRepository.findAll();
@@ -32,7 +35,9 @@ public class CenterServiceImpl implements CenterService {
     @Override
     @Transactional
     public boolean create(CenterRequest centerRequest) {
-        validateCenter(centerRequest);
+        centerValidator.validateName(centerRequest.getName());
+        centerValidator.validateEmail(centerRequest.getEmail());
+        centerValidator.validatePhone(centerRequest.getPhone());
 
         Center center = new Center();
         center.setName(centerRequest.getName());
@@ -45,7 +50,7 @@ public class CenterServiceImpl implements CenterService {
 
         Management management = new Management();
         management.setCenter(newCenter);
-        management.setManager(managerService.get(centerRequest.getManagerId()));
+        management.setManager(managerService.findById(centerRequest.getManagerId()));
 
         managementService.save(management);
 
@@ -65,7 +70,17 @@ public class CenterServiceImpl implements CenterService {
     public boolean update(Long id, CenterRequest centerRequest) {
         Center center = findCenterById(id);
 
-        validateCenter(centerRequest);
+        if(!centerRequest.getName().equalsIgnoreCase(center.getName())){
+            centerValidator.validateName(centerRequest.getName());
+        }
+
+        if(!centerRequest.getEmail().equalsIgnoreCase(center.getEmail())){
+            centerValidator.validateEmail(centerRequest.getEmail());
+        }
+
+        if(!centerRequest.getPhone().equalsIgnoreCase(center.getPhone())){
+            centerValidator.validatePhone(centerRequest.getPhone());
+        }
 
         center.setName(centerRequest.getName());
         center.setAddress(centerRequest.getAddress());
@@ -75,27 +90,16 @@ public class CenterServiceImpl implements CenterService {
 
         centerRepository.save(center);
 
-        return true;
-    }
-
-    @Override
-    @Transactional
-    public boolean changeManager(Long id, Long managerId) {
-        Center center = findCenterById(id);
-
-        if (!managerService.existsById(managerId)) {
-            throw new ResourceNotFoundException("Manager not found with id: " + managerId);
-        }
-
         Manager manager = managerService.getActiveManagerByCenterId(center.getId());
+        if(!manager.getId().equals(centerRequest.getManagerId())){
+            managementService.update(center.getId(), manager.getId());
 
-        managementService.update(center.getId(), manager.getId());
+            Management newManagement = new Management();
+            newManagement.setCenter(center);
+            newManagement.setManager(managerService.findById(centerRequest.getManagerId()));
 
-        Management newManagement = new Management();
-        newManagement.setCenter(center);
-        newManagement.setManager(managerService.get(managerId));
-
-        managementService.save(newManagement);
+            managementService.save(newManagement);
+        }
 
         return true;
     }
@@ -135,14 +139,4 @@ public class CenterServiceImpl implements CenterService {
                 .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
     }
 
-    @Override
-    public void validateCenter(CenterRequest centerRequest) {
-        if (!areaService.existsById(centerRequest.getAreaId())) {
-            throw new ResourceNotFoundException("Area not found with id: " + centerRequest.getAreaId());
-        }
-
-        if (!managerService.existsById(centerRequest.getManagerId())) {
-            throw new ResourceNotFoundException("Manager not found with id: " + centerRequest.getManagerId());
-        }
-    }
 }

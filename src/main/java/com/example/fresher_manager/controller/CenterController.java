@@ -9,47 +9,41 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/center")
+@RequestMapping("/centers")
 public class CenterController {
 
     private final CenterService centerService;
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<?> create(@RequestBody CenterRequest centerRequest){
         centerService.create(centerRequest);
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(centerService.getAll());
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         centerService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,@RequestBody CenterRequest centerRequest){
         centerService.update(id, centerRequest);
         return ResponseEntity.ok("Center updated successfully");
     }
 
-    @PostMapping("/{id}/change-manager/{managerId}")
-    public ResponseEntity<?> changeManager(@PathVariable Long id, @PathVariable Long managerId){
-        centerService.changeManager(id, managerId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{id}/add-course")
+    @PostMapping("/{id}/courses")
     public ResponseEntity<?> addCourse(@PathVariable Long id, @RequestBody Course course){
         centerService.addCourse(id, course);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/assign/{fresherId}/{courseId}")
+    @PostMapping("/courses/{courseId}/freshers/{fresherId}")
     public ResponseEntity<?> assignFresherToCenter(@PathVariable Long fresherId, @PathVariable Long courseId){
         centerService.assignFresherToCenter(fresherId, courseId);
         return ResponseEntity.ok().build();

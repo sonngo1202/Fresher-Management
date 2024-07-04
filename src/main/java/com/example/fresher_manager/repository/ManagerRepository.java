@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
+    Manager findByEmail(String email);
+    Manager findByPhone(String phone);
+    Manager findByUsername(String username);
     List<Manager> findAllByStatusTrue();
     boolean existsByIdAndStatusTrue(Long id);
 

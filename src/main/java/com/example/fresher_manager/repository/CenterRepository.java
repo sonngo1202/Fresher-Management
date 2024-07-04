@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CenterRepository extends JpaRepository<Center, Long> {
+    Center findByName(String name);
+    Center findByPhone(String phone);
+    Center findByEmail(String email);
 }

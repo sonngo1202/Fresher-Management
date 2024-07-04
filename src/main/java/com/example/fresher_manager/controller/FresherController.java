@@ -1,7 +1,6 @@
 package com.example.fresher_manager.controller;
 
-import com.example.fresher_manager.dto.AddFresherRequest;
-import com.example.fresher_manager.dto.UpdateFresherRequest;
+import com.example.fresher_manager.entity.Fresher;
 import com.example.fresher_manager.service.FresherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,25 +8,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/fresher")
+@RequestMapping("/freshers")
 public class FresherController {
     private final FresherService fresherService;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody AddFresherRequest fresherRequest){
-        fresherService.add(fresherRequest);
+    @PostMapping("")
+    public ResponseEntity<?> add(@RequestBody Fresher fresher){
+        fresherService.save(fresher);
         return ResponseEntity.status(201).build();
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        fresherService.delete(id);
+        fresherService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UpdateFresherRequest updateFresherRequest){
-        fresherService.update(id, updateFresherRequest);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Fresher fresher){
+        fresherService.updateById(id, fresher);
         return ResponseEntity.ok().build();
     }
 }

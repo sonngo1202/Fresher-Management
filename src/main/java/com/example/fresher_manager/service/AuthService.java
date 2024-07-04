@@ -6,8 +6,6 @@ import com.example.fresher_manager.dto.TokenRefreshRequest;
 import com.example.fresher_manager.entity.User;
 
 public interface AuthService {
-    void savedAdmin();
     BearerToken login(LoginRequest loginRequestDTO);
     BearerToken refreshAccessToken(TokenRefreshRequest tokenRefreshRequest);
-    void validateUser(User user);
 }
