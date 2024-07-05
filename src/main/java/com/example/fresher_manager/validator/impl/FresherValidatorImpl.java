@@ -1,9 +1,11 @@
 package com.example.fresher_manager.validator.impl;
 
 import com.example.fresher_manager.exception.error.*;
-import com.example.fresher_manager.repository.FresherRepository;
-import com.example.fresher_manager.repository.UserRepository;
+import com.example.fresher_manager.repository.IFresherRepository;
+import com.example.fresher_manager.repository.IUserRepository;
+import com.example.fresher_manager.validator.EmailValidator;
 import com.example.fresher_manager.validator.FresherValidator;
+import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +13,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FresherValidatorImpl implements FresherValidator {
 
-    private final FresherRepository fresherRepository;
-    private final UserRepository userRepository;
+    private final IFresherRepository fresherRepository;
+    private final IUserRepository userRepository;
     private final PhoneValidator phoneValidator;
     private final EmailValidator emailValidator;
 

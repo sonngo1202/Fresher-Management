@@ -9,10 +9,10 @@ import java.util.List;
 public interface CenterService {
     List<Center> getAll();
     boolean create(CenterRequest centerRequest);
-    boolean delete(Long id);
-    boolean update(Long id, CenterRequest centerRequest);
-    boolean addCourse(Long id, Course course);
-    boolean assignFresherToCenter(Long fresherId, Long courseId);
-    boolean merge();
-    Center findCenterById(Long id);
+    boolean deleteById(Long id);
+    boolean updateById(Long id, CenterRequest centerRequest);
+    boolean addCourseById(Long id, Course course);
+    boolean assignFresherToCenter(Long id, Long fresherId, Long courseId);
+    boolean merge(Long idCenter1, Long idCenter2, CenterRequest newCenter);
+    Center getActiveCenterById(Long id);
 }

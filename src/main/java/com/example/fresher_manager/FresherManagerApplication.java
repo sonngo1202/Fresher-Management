@@ -1,8 +1,8 @@
 package com.example.fresher_manager;
 
-import com.example.fresher_manager.repository.AreaRepository;
-import com.example.fresher_manager.repository.LanguageRepository;
-import com.example.fresher_manager.repository.RankRepository;
+import com.example.fresher_manager.repository.IAreaRepository;
+import com.example.fresher_manager.repository.ILanguageRepository;
+import com.example.fresher_manager.repository.IRankRepository;
 import com.example.fresher_manager.service.AuthService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +17,7 @@ public class FresherManagerApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(AuthService authService, AreaRepository areaRepository, LanguageRepository languageRepository, RankRepository rankRepository){
+	CommandLineRunner run(AuthService authService, IAreaRepository areaRepository, ILanguageRepository languageRepository, IRankRepository rankRepository){
 		return args ->{
 //			authService.savedAdmin();
 //			areaRepository.save(new Area("Mỹ", "OK"));

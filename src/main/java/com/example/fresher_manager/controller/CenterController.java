@@ -27,25 +27,25 @@ public class CenterController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        centerService.delete(id);
+        centerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,@RequestBody CenterRequest centerRequest){
-        centerService.update(id, centerRequest);
+        centerService.updateById(id, centerRequest);
         return ResponseEntity.ok("Center updated successfully");
     }
 
     @PostMapping("/{id}/courses")
     public ResponseEntity<?> addCourse(@PathVariable Long id, @RequestBody Course course){
-        centerService.addCourse(id, course);
+        centerService.addCourseById(id, course);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/courses/{courseId}/freshers/{fresherId}")
-    public ResponseEntity<?> assignFresherToCenter(@PathVariable Long fresherId, @PathVariable Long courseId){
-        centerService.assignFresherToCenter(fresherId, courseId);
+    @PostMapping("{id}/courses/{courseId}/freshers/{fresherId}")
+    public ResponseEntity<?> assignFresherToCenter(@PathVariable Long id, @PathVariable Long fresherId, @PathVariable Long courseId){
+        centerService.assignFresherToCenter(id, fresherId, courseId);
         return ResponseEntity.ok().build();
     }
 

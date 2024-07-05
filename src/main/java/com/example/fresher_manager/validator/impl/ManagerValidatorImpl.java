@@ -4,17 +4,19 @@ import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
 import com.example.fresher_manager.exception.error.PhoneAlreadyExistsException;
 import com.example.fresher_manager.exception.error.UsernameAlreadyExistsException;
 import com.example.fresher_manager.exception.error.ValidationException;
-import com.example.fresher_manager.repository.ManagerRepository;
-import com.example.fresher_manager.repository.UserRepository;
+import com.example.fresher_manager.repository.IManagerRepository;
+import com.example.fresher_manager.repository.IUserRepository;
+import com.example.fresher_manager.validator.EmailValidator;
 import com.example.fresher_manager.validator.ManagerValidator;
+import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ManagerValidatorImpl implements ManagerValidator {
-    private final ManagerRepository managerRepository;
-    private final UserRepository userRepository;
+    private final IManagerRepository managerRepository;
+    private final IUserRepository userRepository;
     private final PhoneValidator phoneValidator;
     private final EmailValidator emailValidator;
 

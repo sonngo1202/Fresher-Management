@@ -4,8 +4,10 @@ import com.example.fresher_manager.exception.error.CenterNameAlreadyExistsExcept
 import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
 import com.example.fresher_manager.exception.error.PhoneAlreadyExistsException;
 import com.example.fresher_manager.exception.error.ValidationException;
-import com.example.fresher_manager.repository.CenterRepository;
+import com.example.fresher_manager.repository.ICenterRepository;
 import com.example.fresher_manager.validator.CenterValidator;
+import com.example.fresher_manager.validator.EmailValidator;
+import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CenterValidatorImpl implements CenterValidator {
 
-    private final CenterRepository centerRepository;
+    private final ICenterRepository centerRepository;
     private final PhoneValidator phoneValidator;
     private final EmailValidator emailValidator;
 

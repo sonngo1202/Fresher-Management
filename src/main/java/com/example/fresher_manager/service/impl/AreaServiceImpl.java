@@ -1,7 +1,8 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Area;
-import com.example.fresher_manager.repository.AreaRepository;
+import com.example.fresher_manager.exception.error.ResourceNotFoundException;
+import com.example.fresher_manager.repository.IAreaRepository;
 import com.example.fresher_manager.service.AreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,15 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
 
-    private final AreaRepository areaRepository;
+    private final IAreaRepository areaRepository;
 
     @Override
-    public Area get(Long id) {
-        return areaRepository.getById(id);
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        return areaRepository.existsByIdAndStatusTrue(id);
+    public Area getActiveById(Long id) {
+        return areaRepository.findByIdAndStatusTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Area not found with id: " + id));
     }
 }

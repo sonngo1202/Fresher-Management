@@ -3,11 +3,8 @@ package com.example.fresher_manager.service.impl;
 import com.example.fresher_manager.dto.BearerToken;
 import com.example.fresher_manager.dto.LoginRequest;
 import com.example.fresher_manager.dto.TokenRefreshRequest;
-import com.example.fresher_manager.entity.Admin;
-import com.example.fresher_manager.entity.User;
-import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
-import com.example.fresher_manager.exception.error.UsernameAlreadyExistsException;
-import com.example.fresher_manager.repository.UserRepository;
+import com.example.fresher_manager.exception.error.ValidationException;
+import com.example.fresher_manager.security.CustomUserDetails;
 import com.example.fresher_manager.security.CustomUserDetailsService;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.AuthService;
@@ -16,10 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +33,15 @@ public class AuthServiceImpl implements AuthService {
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDTO.getUsername());
+
+        if(userDetails instanceof CustomUserDetails){
+            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+            if(!customUserDetails.getStatus()){
+                throw new ValidationException("User account has been deleted");
+            }
+        }else{
+            throw new ValidationException("Invalid user details");
+        }
 
         final String accessToken = jwtTokenUtil.generateToken(userDetails);
         final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);

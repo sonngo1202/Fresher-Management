@@ -7,14 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ManagerRepository extends JpaRepository<Manager, Long> {
+public interface IManagerRepository extends JpaRepository<Manager, Long> {
     Manager findByEmail(String email);
     Manager findByPhone(String phone);
-    Manager findByUsername(String username);
     List<Manager> findAllByStatusTrue();
-    boolean existsByIdAndStatusTrue(Long id);
+    Optional<Manager> findByIdAndStatusTrue(Long id);
 
     @Query("SELECT m.manager FROM Management m WHERE m.center.id = :centerId AND m.endDate IS NULL")
     Manager findManagerByCenterIdAndEndDateIsNull(@Param("centerId") Long centerId);

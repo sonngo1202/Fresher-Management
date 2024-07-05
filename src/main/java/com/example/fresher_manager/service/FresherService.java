@@ -12,5 +12,4 @@ public interface FresherService extends UserService<Fresher>{
     List<Fresher> findAllByName();
     List<Fresher> findAllByEmail();
     List<Fresher> findAllByLanguage();
-    Fresher findById(Long id);
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CenterRequest {
+    private Long id;
     private String name;
     private String address;
     private String phone;

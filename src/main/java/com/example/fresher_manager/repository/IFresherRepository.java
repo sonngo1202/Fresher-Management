@@ -4,10 +4,12 @@ import com.example.fresher_manager.entity.Fresher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface FresherRepository extends JpaRepository<Fresher, Long> {
+public interface IFresherRepository extends JpaRepository<Fresher, Long> {
     Fresher findByCode(String code);
-    Fresher findByUsername(String username);
     Fresher findByEmail(String email);
     Fresher findByPhone(String phone);
+    Optional<Fresher> findByIdAndStatusTrue(Long id);
 }

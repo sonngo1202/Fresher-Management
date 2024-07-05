@@ -1,7 +1,7 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Admin;
-import com.example.fresher_manager.repository.AdminRepository;
+import com.example.fresher_manager.repository.IAdminRepository;
 import com.example.fresher_manager.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +15,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private final PasswordEncoder passwordEncoder;
-    private final AdminRepository adminRepository;
+    private final IAdminRepository adminRepository;
 
 
     @Override
@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Admin findById(Long id) {
+    public Admin getActiveUserById(Long id) {
         return null;
     }
 

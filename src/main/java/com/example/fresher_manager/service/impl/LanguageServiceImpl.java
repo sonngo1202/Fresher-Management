@@ -2,7 +2,7 @@ package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Language;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
-import com.example.fresher_manager.repository.LanguageRepository;
+import com.example.fresher_manager.repository.ILanguageRepository;
 import com.example.fresher_manager.service.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LanguageServiceImpl implements LanguageService {
 
-    private final LanguageRepository languageRepository;
+    private final ILanguageRepository languageRepository;
 
     @Override
     public Language findById(Long id) {
