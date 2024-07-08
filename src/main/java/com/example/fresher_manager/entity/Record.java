@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(name = "Record")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
-public class Record {
+public abstract class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

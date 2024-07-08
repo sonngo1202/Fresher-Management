@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface UserService<T extends User>{
     T getActiveUserById(Long id);
-    List<T> findAll();
     boolean save(T user);
 }

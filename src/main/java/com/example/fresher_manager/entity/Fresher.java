@@ -1,5 +1,8 @@
 package com.example.fresher_manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +15,12 @@ import java.util.List;
 @DiscriminatorValue("FRESHER")
 @Data
 public class Fresher extends User{
+
+    private static final int MAX_TESTS = 3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Transient
-    private float avg;
+    private Float avg;
 
     @Column(name = "code", nullable = false)
     private String code;
@@ -25,12 +32,23 @@ public class Fresher extends User{
     @OneToMany(mappedBy = "fresher")
     private List<Result> results;
 
-    public float calculateAvgScore(){
-        if(results.size() == 3){
-            this.avg = 0;
-            for(Result result : results) this.avg += result.getScore();
-            return this.avg;
+    @JsonBackReference(value = "fresher-enrollments")
+    @OneToMany(mappedBy = "fresher")
+    private List<Enrollment> enrollments;
+
+    @JsonProperty("avg")
+    public Float getAvg(){
+        if(results != null && results.size() == MAX_TESTS){
+            return calculateAvgScore();
         }
-        return -1;
+        return null;
+    }
+
+    private Float calculateAvgScore() {
+        float totalScore = 0;
+        for (Result result : results) {
+            totalScore += result.getScore();
+        }
+        return totalScore / results.size();
     }
 }

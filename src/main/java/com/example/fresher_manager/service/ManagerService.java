@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ManagerService extends UserService<Manager>{
     Manager getCurrentManagerByCenterId(Long centerId);
+    List<Manager> findAll();
 }

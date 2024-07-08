@@ -38,11 +38,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Admin> findAll() {
-        return List.of();
-    }
-
-    @Override
     public boolean save(Admin user) {
         return false;
     }

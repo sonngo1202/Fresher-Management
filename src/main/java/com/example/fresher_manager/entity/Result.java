@@ -25,7 +25,7 @@ public class Result {
     @Column(name = "score", nullable = false)
     private float score;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment")
     private String comment;
 
     @ManyToOne

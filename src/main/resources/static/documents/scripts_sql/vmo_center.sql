@@ -45,7 +45,7 @@ CREATE TABLE `center` (
 
 LOCK TABLES `center` WRITE;
 /*!40000 ALTER TABLE `center` DISABLE KEYS */;
-INSERT INTO `center` VALUES (7,'Washington','ct1@vmo.com','CT01','0123456781',_binary '',1),(8,'Tokyo','ct2@vmo.com','CT02','012349877',_binary '',2);
+INSERT INTO `center` VALUES (7,'Washington','ct1@vmo.com','CT01','012345678',_binary '',1),(8,'Tokyo','ct2@vmo.com','CT02','012349877',_binary '',2);
 /*!40000 ALTER TABLE `center` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-03 16:42:12
+-- Dump completed on 2024-07-08 16:46:54

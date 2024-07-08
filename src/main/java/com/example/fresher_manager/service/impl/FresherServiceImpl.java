@@ -1,26 +1,35 @@
 package com.example.fresher_manager.service.impl;
 
-import com.example.fresher_manager.dto.ResultRequest;
 import com.example.fresher_manager.entity.Fresher;
+import com.example.fresher_manager.entity.Result;
+import com.example.fresher_manager.entity.Test;
+import com.example.fresher_manager.exception.error.MaxTestCompletedException;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
+import com.example.fresher_manager.exception.error.ValidationException;
 import com.example.fresher_manager.repository.IFresherRepository;
-import com.example.fresher_manager.service.FresherService;
-import com.example.fresher_manager.service.LanguageService;
+import com.example.fresher_manager.security.JwtTokenUtil;
+import com.example.fresher_manager.service.*;
 import com.example.fresher_manager.validator.FresherValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FresherServiceImpl implements FresherService {
+    public static final int MAX_TESTS = 3;
 
     private final LanguageService languageService;
     private final IFresherRepository fresherRepository;
     private final PasswordEncoder passwordEncoder;
     private final FresherValidator fresherValidator;
+    private final RoleCheckService roleCheckService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final TestService testService;
+    private final ResultService resultService;
 
     @Override
     public boolean save(Fresher user) {
@@ -71,28 +80,73 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
-    public boolean scoreFresher(Long fresherId, ResultRequest resultRequest) {
-        return false;
+    @Transactional
+    public boolean scoringForFresher(Long id, Result result) {
+        Fresher fresher = getActiveUserById(id);
+        if(fresher.getResults().size() >= MAX_TESTS){
+            throw new MaxTestCompletedException("The number of fresher tests has been maxed");
+        }
+
+        Test test = testService.findById(result.getTest().getId());
+
+        result.setFresher(fresher);
+        result.setTest(test);
+
+        resultService.save(result);
+
+        return true;
     }
 
     @Override
-    public List<Fresher> findAll() {
-        return List.of();
+    public List<Fresher> findAll(String token) {
+        if(roleCheckService.isAdmin()){
+            return fresherRepository.findAll();
+        }
+        if(roleCheckService.isManager()){
+            return fresherRepository.findByManagerUsername(jwtTokenUtil.getUsernameFromToken(token));
+        }
+        return null;
     }
 
     @Override
-    public List<Fresher> findAllByName() {
-        return List.of();
+    public List<Fresher> findAllByName(String token, String keyword) {
+        if(keyword == null || keyword.trim().isEmpty()){
+            throw new ValidationException("Keyword must not be empty");
+        }
+
+        List<Fresher> listAll = findAll(token);
+
+        return listAll.stream()
+                .filter(fresher ->
+                        fresher.getFirstname().toLowerCase().contains(keyword.toLowerCase()) ||
+                        fresher.getLastname().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     @Override
-    public List<Fresher> findAllByEmail() {
-        return List.of();
+    public List<Fresher> findAllByEmail(String token, String keyword) {
+        if(keyword == null || keyword.trim().isEmpty()){
+            throw new ValidationException("Keyword must not be empty");
+        }
+
+        List<Fresher> listAll = findAll(token);
+
+        return listAll.stream()
+                .filter(fresher -> fresher.getEmail().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     @Override
-    public List<Fresher> findAllByLanguage() {
-        return List.of();
+    public List<Fresher> findAllByLanguage(String token, String keyword) {
+        if(keyword == null || keyword.trim().isEmpty()){
+            throw new ValidationException("Keyword must not be empty");
+        }
+
+        List<Fresher> listAll = findAll(token);
+
+        return listAll.stream()
+                .filter(fresher -> fresher.getLanguage().getName().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     @Override

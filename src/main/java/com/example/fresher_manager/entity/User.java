@@ -1,5 +1,6 @@
 package com.example.fresher_manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public abstract class User implements Serializable {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @JsonBackReference
     @Column(name = "password", nullable = false)
     private String password;
 

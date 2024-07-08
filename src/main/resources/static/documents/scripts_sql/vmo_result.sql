@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `result`;
 CREATE TABLE `result` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `comment` varchar(255) DEFAULT NULL,
-  `score` float DEFAULT NULL,
+  `score` float NOT NULL,
   `test_date_time` datetime(6) NOT NULL,
   `fresher_id` bigint NOT NULL,
   `test_id` bigint NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `result` (
   KEY `FKsyvhlvlv6k1d4gkqvu12rha0j` (`test_id`),
   CONSTRAINT `FKgl2xou1u7d6jrri2k1v85npw3` FOREIGN KEY (`fresher_id`) REFERENCES `fresher` (`id`),
   CONSTRAINT `FKsyvhlvlv6k1d4gkqvu12rha0j` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
+INSERT INTO `result` VALUES (1,'Good!',8,'2024-06-24 03:30:00.000000',14,1),(2,'Good!',8,'2024-07-01 03:30:00.000000',14,2),(3,'Good!',7,'2024-07-08 03:30:00.000000',14,3);
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-03 16:42:11
+-- Dump completed on 2024-07-08 16:46:53

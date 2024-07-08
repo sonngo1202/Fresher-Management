@@ -32,7 +32,7 @@ CREATE TABLE `test` (
   PRIMARY KEY (`id`),
   KEY `FKf40k4y4x3i52fdg3e7nqx4fhh` (`rank_id`),
   CONSTRAINT `FKf40k4y4x3i52fdg3e7nqx4fhh` FOREIGN KEY (`rank_id`) REFERENCES `rank` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `test` (
 
 LOCK TABLES `test` WRITE;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
+INSERT INTO `test` VALUES (1,'2024-01-01 00:00:00.000000',NULL,'DSA01','Data structures & algorithms',1),(2,'2024-01-01 00:00:00.000000',NULL,'OPP01','Override Programming',2),(3,'2024-01-01 00:00:00.000000',NULL,'AP01','Aplication',3);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-03 16:42:11
+-- Dump completed on 2024-07-08 16:46:54

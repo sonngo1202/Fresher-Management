@@ -134,4 +134,13 @@ public class ControllerExceptionHandler {
                 request.getDescription(false));
         return message;
     }
+
+    public ErrorMessage handMaxTestCompletedException(MaxTestCompletedException ex, WebRequest request){
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return message;
+    }
 }
