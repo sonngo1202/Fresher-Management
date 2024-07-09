@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "Manager")
-@DiscriminatorValue("MANAGER")
 @Data
 public class Manager extends User{
 

@@ -1,5 +1,6 @@
 package com.example.fresher_manager.security;
 
+import com.example.fresher_manager.entity.RoleName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,12 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/tokens", "/auth/tokens/refresh").permitAll()
                 .antMatchers(HttpMethod.GET, "/centers").permitAll()
-                .antMatchers("/freshers/**").hasAnyRole("ADMIN", "MANAGER")
-                .antMatchers("/freshers/{id}").hasRole("FRESHER")
-                .antMatchers("/centers/**").hasRole("ADMIN")
-                .antMatchers("/stats/**").hasRole("ADMIN")
-                .antMatchers("/stat/fresher-score").hasRole("MANAGER")//
-                .antMatchers("/managers/**").hasRole("ADMIN")
+                .antMatchers("/freshers/**").hasAnyRole(RoleName.ADMIN.toString(), RoleName.MANAGER.toString())
+                .antMatchers("/freshers/{id}").hasRole(RoleName.FRESHER.toString())
+                .antMatchers("/centers/**").hasRole(RoleName.ADMIN.toString())
+                .antMatchers("/stats/**").hasRole(RoleName.ADMIN.toString())
+                .antMatchers("/stat/fresher-score").hasRole(RoleName.MANAGER.toString())//
+                .antMatchers("/managers/**").hasRole(RoleName.ADMIN.toString())
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

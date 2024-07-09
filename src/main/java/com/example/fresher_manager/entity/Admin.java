@@ -9,7 +9,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Admin")
-@DiscriminatorValue("ADMIN")
 @Data
 public class Admin extends User{
 }

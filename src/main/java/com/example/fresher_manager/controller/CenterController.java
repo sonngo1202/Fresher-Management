@@ -49,4 +49,10 @@ public class CenterController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("{idCenter1}/merge/{idCenter2}")
+    public ResponseEntity<?> merge(@PathVariable Long idCenter1, @PathVariable Long idCenter2, @RequestBody CenterRequest newCenterInfo){
+        centerService.merge(idCenter1, idCenter2, newCenterInfo);
+        return ResponseEntity.ok().build();
+    }
+
 }

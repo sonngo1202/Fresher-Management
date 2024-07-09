@@ -31,12 +31,12 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     public List<Center> getAll() {
-        return centerRepository.findAll();
+        return centerRepository.findByStatusTrue();
     }
 
     @Override
     @Transactional
-    public boolean create(CenterRequest centerRequest) {
+    public Center create(CenterRequest centerRequest) {
         centerValidator.validateName(centerRequest.getName());
         centerValidator.validateEmail(centerRequest.getEmail());
         centerValidator.validatePhone(centerRequest.getPhone());
@@ -59,7 +59,7 @@ public class CenterServiceImpl implements CenterService {
 
         managementService.save(management);
 
-        return true;
+        return newCenter;
     }
 
     @Override
@@ -88,16 +88,7 @@ public class CenterServiceImpl implements CenterService {
         }
 
         Area area = areaService.getActiveById(centerRequest.getAreaId());
-        Manager manager = managerService.getCurrentManagerByCenterId(id);
-        if(!manager.getId().equals(centerRequest.getManagerId())){
-            Manager newManager = managerService.getActiveUserById(centerRequest.getManagerId());
-            Management management = new Management();
-            management.setCenter(center);
-            management.setManager(newManager);
-            management.setStartDate(new Date());
-            managementService.updateEndDateByCenterIdAndManagerId(id, manager.getId());
-            managementService.save(management);
-        }
+        changeManager(center, centerRequest.getManagerId());
 
         center.setName(centerRequest.getName());
         center.setAddress(centerRequest.getAddress());
@@ -146,10 +137,33 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     @Transactional
-    public boolean merge(Long idCenter1, Long idCenter2, CenterRequest newCenter) {
+    public boolean merge(Long idCenter1, Long idCenter2, CenterRequest newCenterInfo) {
         Center center1 = getActiveCenterById(idCenter1);
         Center center2 = getActiveCenterById(idCenter2);
 
+        Center newCenter;
+        if(newCenterInfo.getId() == null){
+            newCenter = create(newCenterInfo);
+            courseService.updateCenterIdForActiveCourse(center1.getId(), newCenter.getId());
+            deleteById(center1.getId());
+            courseService.updateCenterIdForActiveCourse(center2.getId(), newCenter.getId());
+            deleteById(center2.getId());
+        }else{
+            Long idNewCenter = newCenterInfo.getId();
+            if(!idNewCenter.equals(idCenter1) && !idNewCenter.equals(idCenter2)){
+                throw new ValidationException("");
+            }else if(idNewCenter.equals(idCenter1)){
+                newCenter = center1;
+                courseService.updateCenterIdForActiveCourse(center2.getId(), newCenter.getId());
+                deleteById(center2.getId());
+                changeManager(newCenter, newCenterInfo.getManagerId());
+            }else{
+                newCenter = center2;
+                courseService.updateCenterIdForActiveCourse(center1.getId(), newCenter.getId());
+                deleteById(center1.getId());
+                changeManager(newCenter, newCenterInfo.getManagerId());
+            }
+        }
 
         return true;
     }
@@ -158,6 +172,21 @@ public class CenterServiceImpl implements CenterService {
     public Center getActiveCenterById(Long id) {
         return centerRepository.findByIdAndStatusTrue(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
+    }
+
+    @Override
+    public boolean changeManager(Center center, Long mangerId) {
+        Manager manager = managerService.getCurrentManagerByCenterId(center.getId());
+        if(!manager.getId().equals(mangerId)){
+            Manager newManager = managerService.getActiveUserById(mangerId);
+            Management management = new Management();
+            management.setCenter(center);
+            management.setManager(newManager);
+            management.setStartDate(new Date());
+            managementService.updateEndDateByCenterIdAndManagerId(center.getId(), mangerId);
+            managementService.save(management);
+        }
+        return true;
     }
 
 }

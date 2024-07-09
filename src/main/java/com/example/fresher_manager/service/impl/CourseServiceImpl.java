@@ -7,6 +7,7 @@ import com.example.fresher_manager.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,4 +33,11 @@ public class CourseServiceImpl implements CourseService {
         Optional<Course> course = courseRepository.findByIdAndCenterId(id, centerId);
         return course.isPresent();
     }
+
+    @Override
+    public boolean updateCenterIdForActiveCourse(Long currentCentId, Long newCenterId) {
+        courseRepository.updateCenterIdForActiveCourses(currentCentId, newCenterId);
+        return true;
+    }
+
 }

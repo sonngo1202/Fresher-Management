@@ -1,8 +1,11 @@
 package com.example.fresher_manager;
 
+import com.example.fresher_manager.entity.Role;
+import com.example.fresher_manager.entity.RoleName;
 import com.example.fresher_manager.repository.IAreaRepository;
 import com.example.fresher_manager.repository.ILanguageRepository;
 import com.example.fresher_manager.repository.IRankRepository;
+import com.example.fresher_manager.repository.IRoleRepository;
 import com.example.fresher_manager.service.AuthService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +20,7 @@ public class FresherManagerApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(AuthService authService, IAreaRepository areaRepository, ILanguageRepository languageRepository, IRankRepository rankRepository){
+	CommandLineRunner run(AuthService authService, IAreaRepository areaRepository, ILanguageRepository languageRepository, IRankRepository rankRepository, IRoleRepository roleRepository){
 		return args ->{
 //			authService.savedAdmin();
 //			areaRepository.save(new Area("Mỹ", "OK"));
@@ -32,6 +35,9 @@ public class FresherManagerApplication {
 //			rankRepository.save(new Rank("Dễ", "Đầu vào"));
 //			rankRepository.save(new Rank("Trung Bình", "Làm một thời gian"));
 //			rankRepository.save(new Rank("Khó", "Bài cuối"));
+//			roleRepository.save(new Role(RoleName.FRESHER));
+//			roleRepository.save(new Role(RoleName.MANAGER));
+//			roleRepository.save(new Role(RoleName.ADMIN));
 		};
 	}
 

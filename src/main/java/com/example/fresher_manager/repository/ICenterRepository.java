@@ -4,6 +4,7 @@ import com.example.fresher_manager.entity.Center;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -12,4 +13,5 @@ public interface ICenterRepository extends JpaRepository<Center, Long> {
     Center findByPhone(String phone);
     Center findByEmail(String email);
     Optional<Center> findByIdAndStatusTrue(Long id);
+    List<Center> findByStatusTrue();
 }

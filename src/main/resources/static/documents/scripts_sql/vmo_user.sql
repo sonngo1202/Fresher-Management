@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `role` varchar(31) NOT NULL,
   `id` bigint NOT NULL AUTO_INCREMENT,
   `dob` datetime(6) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -44,7 +43,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('ADMIN',7,'2002-02-12 00:00:00.000000','sonngo@gmail.com','Son','Ngo','$2a$10$/E0SB0vpvXtSn3WyXmlFhuNa.kswAnwKkssl2my8nc.ECw1VizwOu','0562202977','ngoson',_binary ''),('MANAGER',8,'2002-11-12 00:00:00.000000','nguyenviet@gmail.com','Viet','Nguyen','$2a$10$/JTHR6VDWngU2EylWlIbgOIKlASuVrsGEg4lp4rZni1yRaaPgobJG','0123456789','nguyenviet',_binary ''),('MANAGER',9,'2002-06-05 00:00:00.000000','tranthu@gmail.com','Thu','Tran','$2a$10$7m1TdpLd6HYtQ89naZJXgO9GBKe2sPoqawsEQicmbObjmBKFaVU8q','0987654321','tranthu',_binary ''),('MANAGER',10,'2002-04-01 00:00:00.000000','phankieu@gmail.com','Kieu','Phan','$2a$10$fJwcGNidj4TrMeF4DFCWd.Wu/88CdyJcXaB9haSWotx3bsE1vWuSm','0567843215','phankieu',_binary ''),('MANAGER',11,'2002-12-01 00:00:00.000000','maihuy@gmail.com','Huy','Mai','$2a$10$EaCQDsh79/n6SmSdMkdwUOSGt/F861ML0F2WdZulmBB1/qMYzgQyS','0789452134','maihuy',_binary ''),('FRESHER',13,'2002-08-15 00:00:00.000000','thamtran@gmail.com','Tham','Tran','$2a$10$OSBE78qEmr0hPYJxZhGAHeQk/L29ndDf.XtxR9/ta0wJmDUBFJQre','0654450987','phamanh',_binary ''),('FRESHER',14,'2002-07-08 00:00:00.000000','luanhan@gmail.com','Luan','Han','$2a$10$7xbtEvbenvpjIpgkXnwGgeSz7PcYCiToi1shCHzDFKUWsX6/cKlUC','0789453256','hanluan',_binary ''),('FRESHER',15,'2002-01-12 00:00:00.000000','tamnguyen@gmail.com','Tam','Nguyen','$2a$10$..M9iDlmUCpqE68MZIBVjOXeLIf1f3jbx27BavERxvT0KIiUJP8ZS','0654453256','nguyentam',_binary ''),('FRESHER',16,'2002-08-15 00:00:00.000000','thamtran@gmail.com','Tham','Tran','$2a$10$KSOmNvxwigDI08y3UQUmZ.DquDDgscliptn1aJq/wNP12ZlkRVMQi','0654450987','trantham',_binary '');
+INSERT INTO `user` VALUES (7,'2002-02-12 00:00:00.000000','sonngo@gmail.com','Son','Ngo','$2a$10$/E0SB0vpvXtSn3WyXmlFhuNa.kswAnwKkssl2my8nc.ECw1VizwOu','0562202977','ngoson',_binary ''),(8,'2002-11-12 00:00:00.000000','nguyenviet@gmail.com','Viet','Nguyen','$2a$10$/JTHR6VDWngU2EylWlIbgOIKlASuVrsGEg4lp4rZni1yRaaPgobJG','0123456789','nguyenviet',_binary ''),(9,'2002-06-05 00:00:00.000000','tranthu@gmail.com','Thu','Tran','$2a$10$7m1TdpLd6HYtQ89naZJXgO9GBKe2sPoqawsEQicmbObjmBKFaVU8q','0987654321','tranthu',_binary ''),(10,'2002-04-01 00:00:00.000000','phankieu@gmail.com','Kieu','Phan','$2a$10$fJwcGNidj4TrMeF4DFCWd.Wu/88CdyJcXaB9haSWotx3bsE1vWuSm','0567843215','phankieu',_binary ''),(11,'2002-12-01 00:00:00.000000','maihuy@gmail.com','Huy','Mai','$2a$10$EaCQDsh79/n6SmSdMkdwUOSGt/F861ML0F2WdZulmBB1/qMYzgQyS','0789452134','maihuy',_binary ''),(13,'2002-08-15 00:00:00.000000','thamtran@gmail.com','Tham','Tran','$2a$10$OSBE78qEmr0hPYJxZhGAHeQk/L29ndDf.XtxR9/ta0wJmDUBFJQre','0654450987','phamanh',_binary ''),(14,'2002-07-08 00:00:00.000000','luanhan@gmail.com','Luan','Han','$2a$10$7xbtEvbenvpjIpgkXnwGgeSz7PcYCiToi1shCHzDFKUWsX6/cKlUC','0789453256','hanluan',_binary ''),(15,'2002-01-12 00:00:00.000000','tamnguyen@gmail.com','Tam','Nguyen','$2a$10$..M9iDlmUCpqE68MZIBVjOXeLIf1f3jbx27BavERxvT0KIiUJP8ZS','0654453256','nguyentam',_binary ''),(16,'2002-08-15 00:00:00.000000','thamtran@gmail.com','Tham','Tran','$2a$10$KSOmNvxwigDI08y3UQUmZ.DquDDgscliptn1aJq/wNP12ZlkRVMQi','0654450987','trantham',_binary '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-08 16:46:54
+-- Dump completed on 2024-07-09 16:18:51

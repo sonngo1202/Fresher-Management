@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "User", uniqueConstraints = {
         @UniqueConstraint(columnNames = "username")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -45,8 +45,13 @@ public abstract class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role", insertable = false, updatable = false, nullable = false)
-    private String role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "User_Role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    List<Role> roles;
 
     @Column(name = "status", nullable = false)
     private Boolean status;
