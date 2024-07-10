@@ -51,6 +51,12 @@ public class Center {
     @OneToMany(mappedBy = "center")
     private List<Course> courses;
 
+    public Center(Long id, String name, String address){
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
     @PrePersist
     protected void onCreate(){
         this.status = true;

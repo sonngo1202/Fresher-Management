@@ -10,6 +10,7 @@ import com.example.fresher_manager.repository.IFresherRepository;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.*;
 import com.example.fresher_manager.validator.FresherValidator;
+import com.example.fresher_manager.validator.KeywordValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,13 +31,11 @@ public class FresherServiceImpl implements FresherService {
     private final JwtTokenUtil jwtTokenUtil;
     private final TestService testService;
     private final ResultService resultService;
+    private final KeywordValidator keywordValidator;
 
     @Override
     public boolean save(Fresher user) {
-        fresherValidator.validateCode(user.getCode());
-        fresherValidator.validateUsername(user.getUsername());
-        fresherValidator.validateEmail(user.getEmail());
-        fresherValidator.validatePhone(user.getPhone());
+        fresherValidator.validateCreate(user);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setLanguage(languageService.findById(user.getLanguage().getId()));
@@ -58,20 +57,13 @@ public class FresherServiceImpl implements FresherService {
     public boolean updateById(Long id, Fresher updateFresher) {
         Fresher fresher = getActiveUserById(id);
 
-        if(!updateFresher.getEmail().equalsIgnoreCase(fresher.getEmail())){
-            fresherValidator.validateEmail(updateFresher.getEmail());
-        }
-
-        if(!updateFresher.getPhone().equalsIgnoreCase(fresher.getPhone())){
-            fresherValidator.validatePhone(updateFresher.getPhone());
-        }
+        fresherValidator.validateUpdate(updateFresher, fresher);
 
         fresher.setFirstname(updateFresher.getFirstname());
         fresher.setLastname(updateFresher.getLastname());
         fresher.setDob(updateFresher.getDob());
         fresher.setEmail(updateFresher.getEmail());
         fresher.setPhone(updateFresher.getPhone());
-
         fresher.setLanguage(languageService.findById(updateFresher.getLanguage().getId()));
 
         fresherRepository.save(fresher);
@@ -110,9 +102,7 @@ public class FresherServiceImpl implements FresherService {
 
     @Override
     public List<Fresher> findAllByName(String token, String keyword) {
-        if(keyword == null || keyword.trim().isEmpty()){
-            throw new ValidationException("Keyword must not be empty");
-        }
+        keywordValidator.validate(keyword);
 
         List<Fresher> listAll = findAll(token);
 
@@ -125,9 +115,7 @@ public class FresherServiceImpl implements FresherService {
 
     @Override
     public List<Fresher> findAllByEmail(String token, String keyword) {
-        if(keyword == null || keyword.trim().isEmpty()){
-            throw new ValidationException("Keyword must not be empty");
-        }
+        keywordValidator.validate(keyword);
 
         List<Fresher> listAll = findAll(token);
 
@@ -138,9 +126,7 @@ public class FresherServiceImpl implements FresherService {
 
     @Override
     public List<Fresher> findAllByLanguage(String token, String keyword) {
-        if(keyword == null || keyword.trim().isEmpty()){
-            throw new ValidationException("Keyword must not be empty");
-        }
+        keywordValidator.validate(keyword);
 
         List<Fresher> listAll = findAll(token);
 

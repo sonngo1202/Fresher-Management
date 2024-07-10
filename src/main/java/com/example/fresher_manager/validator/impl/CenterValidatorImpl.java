@@ -1,5 +1,7 @@
 package com.example.fresher_manager.validator.impl;
 
+import com.example.fresher_manager.dto.CenterRequest;
+import com.example.fresher_manager.entity.Center;
 import com.example.fresher_manager.exception.error.CenterNameAlreadyExistsException;
 import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
 import com.example.fresher_manager.exception.error.PhoneAlreadyExistsException;
@@ -45,6 +47,28 @@ public class CenterValidatorImpl implements CenterValidator {
 
         if(centerRepository.findByPhone(phone) != null){
             throw new PhoneAlreadyExistsException("Phone is already taken!");
+        }
+    }
+
+    @Override
+    public void validateCreate(CenterRequest createCenter) {
+        validateName(createCenter.getName());
+        validateEmail(createCenter.getEmail());
+        validatePhone(createCenter.getPhone());
+    }
+
+    @Override
+    public void validateUpdate(CenterRequest updateCenter, Center currentCenter) {
+        if(!updateCenter.getName().equalsIgnoreCase(currentCenter.getName())){
+            validateName(updateCenter.getName());
+        }
+
+        if(!updateCenter.getEmail().equalsIgnoreCase(currentCenter.getEmail())){
+            validateEmail(updateCenter.getEmail());
+        }
+
+        if(!updateCenter.getPhone().equalsIgnoreCase(currentCenter.getPhone())){
+            validatePhone(updateCenter.getPhone());
         }
     }
 }

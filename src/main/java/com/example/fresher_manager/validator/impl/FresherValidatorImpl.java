@@ -1,5 +1,6 @@
 package com.example.fresher_manager.validator.impl;
 
+import com.example.fresher_manager.entity.Fresher;
 import com.example.fresher_manager.exception.error.*;
 import com.example.fresher_manager.repository.IFresherRepository;
 import com.example.fresher_manager.repository.IUserRepository;
@@ -37,6 +38,25 @@ public class FresherValidatorImpl implements FresherValidator {
 
         if(fresherRepository.findByCode(code) != null){
             throw new FresherCodeAlreadyExistsException("Code is already taken!");
+        }
+    }
+
+    @Override
+    public void validateCreate(Fresher createFresher) {
+        validateCode(createFresher.getCode());
+        validateUsername(createFresher.getUsername());
+        validateEmail(createFresher.getEmail());
+        validatePhone(createFresher.getPhone());
+    }
+
+    @Override
+    public void validateUpdate(Fresher updateFresher, Fresher currentFresher) {
+        if(!updateFresher.getEmail().equalsIgnoreCase(currentFresher.getEmail())){
+            validateEmail(updateFresher.getEmail());
+        }
+
+        if(!updateFresher.getPhone().equalsIgnoreCase(currentFresher.getPhone())){
+            validatePhone(updateFresher.getPhone());
         }
     }
 

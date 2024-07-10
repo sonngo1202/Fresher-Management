@@ -4,6 +4,7 @@ import com.example.fresher_manager.entity.Admin;
 import com.example.fresher_manager.repository.IAdminRepository;
 import com.example.fresher_manager.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

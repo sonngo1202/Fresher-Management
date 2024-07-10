@@ -1,5 +1,6 @@
 package com.example.fresher_manager.validator.impl;
 
+import com.example.fresher_manager.entity.Manager;
 import com.example.fresher_manager.exception.error.EmailAlreadyExistsException;
 import com.example.fresher_manager.exception.error.PhoneAlreadyExistsException;
 import com.example.fresher_manager.exception.error.UsernameAlreadyExistsException;
@@ -47,5 +48,12 @@ public class ManagerValidatorImpl implements ManagerValidator {
         if(userRepository.findByUsername(username) != null){
             throw new UsernameAlreadyExistsException("Username is already taken!");
         }
+    }
+
+    @Override
+    public void validateCreate(Manager manager) {
+        validateUsername(manager.getUsername());
+        validateEmail(manager.getEmail());
+        validatePhone(manager.getPhone());
     }
 }

@@ -48,6 +48,8 @@ public class Fresher extends User{
         for (Result result : results) {
             totalScore += result.getScore();
         }
-        return totalScore / results.size();
+        float avgScore = totalScore / results.size();
+
+        return (float) (Math.ceil(avgScore * 100) / 100.0);
     }
 }

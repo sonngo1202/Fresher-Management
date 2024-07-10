@@ -21,9 +21,7 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public boolean save(Manager manager) {
-        managerValidator.validateUsername(manager.getUsername());
-        managerValidator.validateEmail(manager.getEmail());
-        managerValidator.validatePhone(manager.getPhone());
+        managerValidator.validateCreate(manager);
 
         manager.setPassword(passwordEncoder.encode(manager.getPassword()));
         managerRepository.save(manager);
