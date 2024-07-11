@@ -1,6 +1,9 @@
-package com.example.fresher_manager.security;
+package com.example.fresher_manager.config;
 
 import com.example.fresher_manager.entity.RoleName;
+import com.example.fresher_manager.security.CustomUserDetailsService;
+import com.example.fresher_manager.security.JwtAuthenticationEntryPoint;
+import com.example.fresher_manager.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/tokens", "/auth/tokens/refresh").permitAll()
+                .authorizeRequests().antMatchers("/auth/tokens", "/auth/tokens/refresh", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/centers").permitAll()
                 .antMatchers("/freshers/**").hasAnyRole(RoleName.ADMIN.toString(), RoleName.MANAGER.toString())
                 .antMatchers("/freshers/{id}").hasRole(RoleName.FRESHER.toString())

@@ -8,10 +8,12 @@ import com.example.fresher_manager.validator.EmailValidator;
 import com.example.fresher_manager.validator.FresherValidator;
 import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FresherValidatorImpl implements FresherValidator {
 
     private final IFresherRepository fresherRepository;
@@ -22,10 +24,12 @@ public class FresherValidatorImpl implements FresherValidator {
     @Override
     public void validateUsername(String username) {
         if(username == null || username.isEmpty()){
+            log.error("Username cannot be null or empty");
             throw new ValidationException("Username cannot be null or empty");
         }
 
         if(userRepository.findByUsername(username) != null){
+            log.info("Username is already taken!");
             throw new UsernameAlreadyExistsException("Username is already taken!");
         }
     }
@@ -33,10 +37,12 @@ public class FresherValidatorImpl implements FresherValidator {
     @Override
     public void validateCode(String code) {
         if(code == null || code.isEmpty()){
+            log.error("Fresher Code cannot be null or empty");
             throw new ValidationException("Fresher Code cannot be null or empty");
         }
 
         if(fresherRepository.findByCode(code) != null){
+            log.info("Code is already taken!");
             throw new FresherCodeAlreadyExistsException("Code is already taken!");
         }
     }

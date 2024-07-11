@@ -6,6 +6,7 @@ import com.example.fresher_manager.repository.IManagerRepository;
 import com.example.fresher_manager.service.ManagerService;
 import com.example.fresher_manager.validator.ManagerValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ManagerServiceImpl implements ManagerService {
 
     private final IManagerRepository managerRepository;
@@ -32,7 +34,10 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public Manager getActiveUserById(Long id) {
         return managerRepository.findByIdAndStatusTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Manager not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.info("Manager not found with id: " + id);
+                    return new ResourceNotFoundException("Manager not found with id: " + id);
+                });
     }
 
     @Override

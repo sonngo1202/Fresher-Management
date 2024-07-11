@@ -15,16 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@Slf4j
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/tokens")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequestDTO){
-        log.info("Received login request: {}", loginRequestDTO);
         BearerToken response = authService.login(loginRequestDTO);
-        log.info("Login response: {}", response);
         return ResponseEntity.ok(response);
     }
 

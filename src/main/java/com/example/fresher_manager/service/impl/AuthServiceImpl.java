@@ -9,6 +9,7 @@ import com.example.fresher_manager.security.CustomUserDetailsService;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomUserDetailsService userDetailsService;
@@ -29,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
                     new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword())
             );
         } catch (BadCredentialsException e) {
+            log.info("Incorrect username or password");
             throw new BadCredentialsException("Incorrect username or password");
         }
 
@@ -37,9 +40,11 @@ public class AuthServiceImpl implements AuthService {
         if(userDetails instanceof CustomUserDetails){
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
             if(!customUserDetails.getStatus()){
+                log.info("User account has been deleted");
                 throw new ValidationException("User account has been deleted");
             }
         }else{
+            log.error("Invalid user details");
             throw new ValidationException("Invalid user details");
         }
 

@@ -12,6 +12,9 @@ import com.example.fresher_manager.service.*;
 import com.example.fresher_manager.validator.FresherValidator;
 import com.example.fresher_manager.validator.KeywordValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FresherServiceImpl implements FresherService {
     public static final int MAX_TESTS = 3;
 
@@ -34,6 +38,7 @@ public class FresherServiceImpl implements FresherService {
     private final KeywordValidator keywordValidator;
 
     @Override
+    @CacheEvict(value = "freshers", allEntries = true)
     public boolean save(Fresher user) {
         fresherValidator.validateCreate(user);
 
@@ -46,6 +51,7 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
+    @CacheEvict(value = "freshers", allEntries = true)
     public boolean deleteById(Long id) {
         Fresher fresher = getActiveUserById(id);
         fresher.setStatus(false);
@@ -54,6 +60,7 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
+    @CacheEvict(value = "freshers", allEntries = true)
     public boolean updateById(Long id, Fresher updateFresher) {
         Fresher fresher = getActiveUserById(id);
 
@@ -76,6 +83,7 @@ public class FresherServiceImpl implements FresherService {
     public boolean scoringForFresher(Long id, Result result) {
         Fresher fresher = getActiveUserById(id);
         if(fresher.getResults().size() >= MAX_TESTS){
+            log.info("The number of fresher tests has been maxed");
             throw new MaxTestCompletedException("The number of fresher tests has been maxed");
         }
 
@@ -90,6 +98,7 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
+    @Cacheable("freshers")
     public List<Fresher> findAll(String token) {
         if(roleCheckService.isAdmin()){
             return fresherRepository.findAll();
@@ -136,8 +145,12 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
+    @Cacheable(value = "freshers", key = "#id")
     public Fresher getActiveUserById(Long id) {
         return fresherRepository.findByIdAndStatusTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Fresher not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.info("Fresher not found with id: " + id);
+                    return new ResourceNotFoundException("Fresher not found with id: " + id);
+                });
     }
 }

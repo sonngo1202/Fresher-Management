@@ -8,6 +8,9 @@ import com.example.fresher_manager.repository.ICenterRepository;
 import com.example.fresher_manager.service.*;
 import com.example.fresher_manager.validator.CenterValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CenterServiceImpl implements CenterService {
 
     private final ICenterRepository centerRepository;
@@ -31,12 +35,14 @@ public class CenterServiceImpl implements CenterService {
     private final CenterValidator centerValidator;
 
     @Override
+    @Cacheable("centers")
     public List<Center> getAll() {
         return centerRepository.findByStatusTrue();
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "centers", allEntries = true)
     public Center create(CenterRequest centerRequest) {
         centerValidator.validateCreate(centerRequest);
 
@@ -67,6 +73,7 @@ public class CenterServiceImpl implements CenterService {
     }
 
     @Override
+    @CacheEvict(value = "centers", allEntries = true)
     public boolean deleteById(Long id) {
         Center center = getActiveCenterById(id);
         center.setStatus(false);
@@ -76,6 +83,7 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "centers", allEntries = true)
     public boolean updateById(Long id, CenterRequest centerRequest) {
         Center center = getActiveCenterById(id);
 
@@ -110,10 +118,12 @@ public class CenterServiceImpl implements CenterService {
         Course course = courseService.getActiveCourseById(courseId);
 
         if(!courseService.isCourseBelongToCenter(courseId, id)){
+            log.info("Course with ID " + courseId + " does not belong to Center with ID " + id);
             throw new ValidationException("Course with ID " + courseId + " does not belong to Center with ID " + id);
         }
 
         if(enrollmentService.isFresherEnrolledInCourse(fresherId, courseId)){
+            log.info("Fresher with ID " + fresherId + " is enrolled in Course with ID " + courseId);
             throw new ValidationException("Fresher with ID " + fresherId + " is enrolled in Course with ID " + courseId);
         }
 
@@ -134,6 +144,7 @@ public class CenterServiceImpl implements CenterService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "centers", allEntries = true)
     public boolean merge(Long idCenter1, Long idCenter2, CenterRequest newCenterInfo) {
         Center center1 = getActiveCenterById(idCenter1);
         Center center2 = getActiveCenterById(idCenter2);
@@ -157,6 +168,7 @@ public class CenterServiceImpl implements CenterService {
         Long idCenter2 = center2.getId();
 
         if(!idNewCenter.equals(idCenter1) && !idNewCenter.equals(idCenter2)){
+            log.info("The Center after merging must be one of the two previous Centers!");
             throw new ValidationException("The Center after merging must be one of the two previous Centers!");
         }
 
@@ -187,9 +199,13 @@ public class CenterServiceImpl implements CenterService {
 
 
     @Override
+    @Cacheable(value = "centers", key = "#id")
     public Center getActiveCenterById(Long id) {
         return centerRepository.findByIdAndStatusTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Center not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.info("Center not found with id: " + id);
+                    return new ResourceNotFoundException("Center not found with id: " + id);
+                });
     }
 
     @Override

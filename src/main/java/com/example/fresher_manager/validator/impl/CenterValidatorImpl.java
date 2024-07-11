@@ -11,10 +11,12 @@ import com.example.fresher_manager.validator.CenterValidator;
 import com.example.fresher_manager.validator.EmailValidator;
 import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CenterValidatorImpl implements CenterValidator {
 
     private final ICenterRepository centerRepository;
@@ -24,10 +26,12 @@ public class CenterValidatorImpl implements CenterValidator {
     @Override
     public void validateName(String name) {
         if(name == null || name.isEmpty()){
+            log.error("Center name cannot be null or empty");
             throw new ValidationException("Center name cannot be null or empty");
         }
 
         if(centerRepository.findByName(name) != null){
+            log.info("Name is already taken!");
             throw new CenterNameAlreadyExistsException("Name is already taken!");
         }
     }
@@ -37,6 +41,7 @@ public class CenterValidatorImpl implements CenterValidator {
         emailValidator.validate(email);
 
         if(centerRepository.findByEmail(email) != null){
+            log.info("Email is already taken!");
             throw new EmailAlreadyExistsException("Email is already taken!");
         }
     }
@@ -46,6 +51,7 @@ public class CenterValidatorImpl implements CenterValidator {
         phoneValidator.validate(phone);
 
         if(centerRepository.findByPhone(phone) != null){
+            log.info("Phone is already taken!");
             throw new PhoneAlreadyExistsException("Phone is already taken!");
         }
     }

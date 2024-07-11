@@ -11,10 +11,12 @@ import com.example.fresher_manager.validator.EmailValidator;
 import com.example.fresher_manager.validator.ManagerValidator;
 import com.example.fresher_manager.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ManagerValidatorImpl implements ManagerValidator {
     private final IManagerRepository managerRepository;
     private final IUserRepository userRepository;
@@ -26,6 +28,7 @@ public class ManagerValidatorImpl implements ManagerValidator {
         emailValidator.validate(email);
 
         if(managerRepository.findByEmail(email) != null){
+            log.info("Email is already taken!");
             throw new EmailAlreadyExistsException("Email is already taken!");
         }
     }
@@ -35,6 +38,7 @@ public class ManagerValidatorImpl implements ManagerValidator {
         phoneValidator.validate(phone);
 
         if(managerRepository.findByPhone(phone) != null){
+            log.info("Phone is already taken!");
             throw new PhoneAlreadyExistsException("Phone is already taken!");
         }
     }
@@ -42,10 +46,12 @@ public class ManagerValidatorImpl implements ManagerValidator {
     @Override
     public void validateUsername(String username) {
         if(username == null || username.isEmpty()){
+            log.error("Username cannot be null or empty");
             throw new ValidationException("Username cannot be null or empty");
         }
 
         if(userRepository.findByUsername(username) != null){
+            log.info("Username is already taken!");
             throw new UsernameAlreadyExistsException("Username is already taken!");
         }
     }

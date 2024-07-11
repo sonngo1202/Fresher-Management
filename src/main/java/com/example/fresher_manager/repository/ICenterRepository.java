@@ -19,15 +19,16 @@ public interface ICenterRepository extends JpaRepository<Center, Long> {
     Optional<Center> findByIdAndStatusTrue(Long id);
     List<Center> findByStatusTrue();
 
-    @Query("SELECT new com.example.fresher_manager.entity.CenterStat(c.id, c.name, c.address, COUNT(f)) " +
+    @Query("SELECT new com.example.fresher_manager.entity.CenterStat(c.id, c.name, c.address, COUNT(DISTINCT f.id)) " +
             "FROM Center c " +
             "JOIN Course ce ON c.id = ce.center.id " +
             "JOIN Enrollment e ON ce.id = e.course.id " +
             "JOIN Fresher f ON e.fresher.id = f.id " +
             "WHERE c.status IS TRUE " +
             "AND e.startDate >= :statisticStartDate " +
-            "AND e.startDate <= :statisticEndDate " +
+            "AND e.startDate <= :statisticEndDate  " +
             "GROUP BY c.id " +
-            "ORDER BY COUNT(f)")
-    List<CenterStat> getFresherCountByCenter(@Param("statisticStartDate")Date statisticStartDate, @Param("statisticEndDate")Date statisticEndDate);
+            "ORDER BY COUNT(DISTINCT f.id) DESC")
+    List<CenterStat> getFresherCountByCenter(@Param("statisticStartDate")Date statisticStartDate,
+                                             @Param("statisticEndDate")Date statisticEndDate);
 }

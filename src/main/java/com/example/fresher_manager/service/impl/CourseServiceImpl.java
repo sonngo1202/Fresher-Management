@@ -5,6 +5,7 @@ import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.ICourseRepository;
 import com.example.fresher_manager.service.CourseService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CourseServiceImpl implements CourseService {
 
     private final ICourseRepository courseRepository;
@@ -25,7 +27,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course getActiveCourseById(Long id) {
         return courseRepository.findByIdAndEndDateAfterNow(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.info("Course not found with id: " + id);
+                    return new ResourceNotFoundException("Course not found with id: " + id);
+                });
     }
 
     @Override

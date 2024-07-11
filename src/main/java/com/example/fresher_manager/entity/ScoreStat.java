@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ScoreStat {
-    private String pointRange;
+    private String scoreRange;
+    private float firstScore;
+    private float secondScore;
     private long fresherCount;
 }
