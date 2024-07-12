@@ -52,10 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/tokens", "/auth/tokens/refresh", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/centers").permitAll()
                 .antMatchers("/freshers/**").hasAnyRole(RoleName.ADMIN.toString(), RoleName.MANAGER.toString())
-                .antMatchers("/freshers/{id}").hasRole(RoleName.FRESHER.toString())
                 .antMatchers("/centers/**").hasRole(RoleName.ADMIN.toString())
-                .antMatchers("/stats/**").hasRole(RoleName.ADMIN.toString())
-                .antMatchers("/stat/fresher-score").hasRole(RoleName.MANAGER.toString())//
+                .antMatchers("/stats/**").hasAnyRole(RoleName.ADMIN.toString(), RoleName.MANAGER.toString())
                 .antMatchers("/managers/**").hasRole(RoleName.ADMIN.toString())
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()

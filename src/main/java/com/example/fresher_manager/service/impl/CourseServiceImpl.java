@@ -28,7 +28,7 @@ public class CourseServiceImpl implements CourseService {
     public Course getActiveCourseById(Long id) {
         return courseRepository.findByIdAndEndDateAfterNow(id)
                 .orElseThrow(() -> {
-                    log.info("Course not found with id: " + id);
+                    log.error("Course not found with id: " + id);
                     return new ResourceNotFoundException("Course not found with id: " + id);
                 });
     }

@@ -118,12 +118,12 @@ public class CenterServiceImpl implements CenterService {
         Course course = courseService.getActiveCourseById(courseId);
 
         if(!courseService.isCourseBelongToCenter(courseId, id)){
-            log.info("Course with ID " + courseId + " does not belong to Center with ID " + id);
+            log.error("Course with ID " + courseId + " does not belong to Center with ID " + id);
             throw new ValidationException("Course with ID " + courseId + " does not belong to Center with ID " + id);
         }
 
         if(enrollmentService.isFresherEnrolledInCourse(fresherId, courseId)){
-            log.info("Fresher with ID " + fresherId + " is enrolled in Course with ID " + courseId);
+            log.error("Fresher with ID " + fresherId + " is enrolled in Course with ID " + courseId);
             throw new ValidationException("Fresher with ID " + fresherId + " is enrolled in Course with ID " + courseId);
         }
 
@@ -168,7 +168,7 @@ public class CenterServiceImpl implements CenterService {
         Long idCenter2 = center2.getId();
 
         if(!idNewCenter.equals(idCenter1) && !idNewCenter.equals(idCenter2)){
-            log.info("The Center after merging must be one of the two previous Centers!");
+            log.error("The Center after merging must be one of the two previous Centers!");
             throw new ValidationException("The Center after merging must be one of the two previous Centers!");
         }
 
@@ -203,7 +203,7 @@ public class CenterServiceImpl implements CenterService {
     public Center getActiveCenterById(Long id) {
         return centerRepository.findByIdAndStatusTrue(id)
                 .orElseThrow(() -> {
-                    log.info("Center not found with id: " + id);
+                    log.error("Center not found with id: " + id);
                     return new ResourceNotFoundException("Center not found with id: " + id);
                 });
     }

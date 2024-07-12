@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
                     new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword())
             );
         } catch (BadCredentialsException e) {
-            log.info("Incorrect username or password");
+            log.error("Incorrect username or password");
             throw new BadCredentialsException("Incorrect username or password");
         }
 
@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
         if(userDetails instanceof CustomUserDetails){
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
             if(!customUserDetails.getStatus()){
-                log.info("User account has been deleted");
+                log.error("User account has been deleted");
                 throw new ValidationException("User account has been deleted");
             }
         }else{

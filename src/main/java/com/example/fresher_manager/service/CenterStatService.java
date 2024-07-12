@@ -6,5 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface CenterStatService {
-    List<CenterStat> getFresherCountByCenter(Date statisticStartDate, Date statisticEndDate);
+    List<CenterStat> getFresherCountByCenterWithPeriod(Date statisticStartDate, Date statisticEndDate, String token);
+    List<CenterStat> getFresherCountByCenterWithCurrentDate(String token);
 }

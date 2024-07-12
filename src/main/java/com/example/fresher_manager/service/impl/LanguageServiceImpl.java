@@ -19,7 +19,7 @@ public class LanguageServiceImpl implements LanguageService {
     public Language findById(Long id) {
         return languageRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.info("Language not found with id: " + id);
+                    log.error("Language not found with id: " + id);
                     return new ResourceNotFoundException("Language not found with id: " + id);
                 });
     }

@@ -35,7 +35,7 @@ public class ManagerServiceImpl implements ManagerService {
     public Manager getActiveUserById(Long id) {
         return managerRepository.findByIdAndStatusTrue(id)
                 .orElseThrow(() -> {
-                    log.info("Manager not found with id: " + id);
+                    log.error("Manager not found with id: " + id);
                     return new ResourceNotFoundException("Manager not found with id: " + id);
                 });
     }

@@ -9,7 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class ScoreStat {
     private String scoreRange;
-    private float firstScore;
-    private float secondScore;
     private long fresherCount;
 }

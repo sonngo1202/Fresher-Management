@@ -19,7 +19,7 @@ public class TestServiceImpl implements TestService {
     public Test findById(Long id) {
         return testRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.info("Test not found with id: " + id);
+                    log.error("Test not found with id: " + id);
                     return new ResourceNotFoundException("Test not found with id: " + id);
                 });
     }

@@ -28,7 +28,7 @@ public class ManagerValidatorImpl implements ManagerValidator {
         emailValidator.validate(email);
 
         if(managerRepository.findByEmail(email) != null){
-            log.info("Email is already taken!");
+            log.error("Email is already taken!");
             throw new EmailAlreadyExistsException("Email is already taken!");
         }
     }
@@ -38,7 +38,7 @@ public class ManagerValidatorImpl implements ManagerValidator {
         phoneValidator.validate(phone);
 
         if(managerRepository.findByPhone(phone) != null){
-            log.info("Phone is already taken!");
+            log.error("Phone is already taken!");
             throw new PhoneAlreadyExistsException("Phone is already taken!");
         }
     }
@@ -51,7 +51,7 @@ public class ManagerValidatorImpl implements ManagerValidator {
         }
 
         if(userRepository.findByUsername(username) != null){
-            log.info("Username is already taken!");
+            log.error("Username is already taken!");
             throw new UsernameAlreadyExistsException("Username is already taken!");
         }
     }

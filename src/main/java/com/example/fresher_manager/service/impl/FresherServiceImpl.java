@@ -83,7 +83,7 @@ public class FresherServiceImpl implements FresherService {
     public boolean scoringForFresher(Long id, Result result) {
         Fresher fresher = getActiveUserById(id);
         if(fresher.getResults().size() >= MAX_TESTS){
-            log.info("The number of fresher tests has been maxed");
+            log.error("The number of fresher tests has been maxed");
             throw new MaxTestCompletedException("The number of fresher tests has been maxed");
         }
 
@@ -149,7 +149,7 @@ public class FresherServiceImpl implements FresherService {
     public Fresher getActiveUserById(Long id) {
         return fresherRepository.findByIdAndStatusTrue(id)
                 .orElseThrow(() -> {
-                    log.info("Fresher not found with id: " + id);
+                    log.error("Fresher not found with id: " + id);
                     return new ResourceNotFoundException("Fresher not found with id: " + id);
                 });
     }

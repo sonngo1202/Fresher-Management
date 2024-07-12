@@ -19,7 +19,7 @@ public class AreaServiceImpl implements AreaService {
     public Area getActiveById(Long id) {
         return areaRepository.findByIdAndStatusTrue(id)
                 .orElseThrow(() -> {
-                    log.info("Area not found with id: " + id);
+                    log.error("Area not found with id: " + id);
                     return new ResourceNotFoundException("Area not found with id: " + id);
                 });
     }

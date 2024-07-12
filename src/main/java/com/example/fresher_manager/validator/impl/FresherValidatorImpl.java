@@ -29,7 +29,7 @@ public class FresherValidatorImpl implements FresherValidator {
         }
 
         if(userRepository.findByUsername(username) != null){
-            log.info("Username is already taken!");
+            log.error("Username is already taken!");
             throw new UsernameAlreadyExistsException("Username is already taken!");
         }
     }
@@ -42,7 +42,7 @@ public class FresherValidatorImpl implements FresherValidator {
         }
 
         if(fresherRepository.findByCode(code) != null){
-            log.info("Code is already taken!");
+            log.error("Code is already taken!");
             throw new FresherCodeAlreadyExistsException("Code is already taken!");
         }
     }

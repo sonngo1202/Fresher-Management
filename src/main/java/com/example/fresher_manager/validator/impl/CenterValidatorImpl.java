@@ -31,7 +31,7 @@ public class CenterValidatorImpl implements CenterValidator {
         }
 
         if(centerRepository.findByName(name) != null){
-            log.info("Name is already taken!");
+            log.error("Name is already taken!");
             throw new CenterNameAlreadyExistsException("Name is already taken!");
         }
     }
@@ -41,7 +41,7 @@ public class CenterValidatorImpl implements CenterValidator {
         emailValidator.validate(email);
 
         if(centerRepository.findByEmail(email) != null){
-            log.info("Email is already taken!");
+            log.error("Email is already taken!");
             throw new EmailAlreadyExistsException("Email is already taken!");
         }
     }
@@ -51,7 +51,7 @@ public class CenterValidatorImpl implements CenterValidator {
         phoneValidator.validate(phone);
 
         if(centerRepository.findByPhone(phone) != null){
-            log.info("Phone is already taken!");
+            log.error("Phone is already taken!");
             throw new PhoneAlreadyExistsException("Phone is already taken!");
         }
     }
