@@ -3,6 +3,7 @@ package com.example.fresher_manager.service.impl;
 import com.example.fresher_manager.dto.BearerToken;
 import com.example.fresher_manager.dto.LoginRequest;
 import com.example.fresher_manager.dto.TokenRefreshRequest;
+import com.example.fresher_manager.entity.User;
 import com.example.fresher_manager.exception.error.ValidationException;
 import com.example.fresher_manager.security.CustomUserDetails;
 import com.example.fresher_manager.security.CustomUserDetailsService;
@@ -37,13 +38,14 @@ public class AuthServiceImpl implements AuthService {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDTO.getUsername());
 
-        if(userDetails instanceof CustomUserDetails){
-            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
-            if(!customUserDetails.getStatus()){
+        CustomUserDetails customUserDetails;
+        if (userDetails instanceof CustomUserDetails) {
+            customUserDetails = (CustomUserDetails) userDetails;
+            if (!customUserDetails.getStatus()) {
                 log.error("User account has been deleted");
                 throw new ValidationException("User account has been deleted");
             }
-        }else{
+        } else {
             log.error("Invalid user details");
             throw new ValidationException("Invalid user details");
         }
@@ -59,6 +61,5 @@ public class AuthServiceImpl implements AuthService {
         String newAccessToken =  jwtTokenUtil.generateAccessTokenFromRefreshToken(refreshToken);
         return new BearerToken(newAccessToken, refreshToken);
     }
-
 
 }

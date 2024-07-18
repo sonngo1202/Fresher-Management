@@ -53,6 +53,7 @@ public abstract class User implements Serializable {
     )
     List<Role> roles;
 
+    @JsonBackReference
     @Column(name = "status", nullable = false)
     private Boolean status;
 
