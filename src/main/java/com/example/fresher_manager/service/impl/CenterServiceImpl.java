@@ -160,6 +160,8 @@ public class CenterServiceImpl implements CenterService {
             Center newCenter = create(newCenterInfo);
             updateCourseAndDeleteCenter(center1, newCenter);
             updateCourseAndDeleteCenter(center2, newCenter);
+            updateManagementByCenter(center1);
+            updateManagementByCenter(center2);
             return newCenter;
         }
 
@@ -179,6 +181,7 @@ public class CenterServiceImpl implements CenterService {
         }
 
         updateCourseAndDeleteCenter(center1, center2);
+        updateManagementByCenter(center1);
         changeManager(center2, newCenterInfo.getManagerId());
         return center2;
     }
@@ -186,6 +189,11 @@ public class CenterServiceImpl implements CenterService {
     private void updateCourseAndDeleteCenter(Center oldCenter, Center newCenter){
         courseService.updateCenterIdForActiveCourse(oldCenter.getId(), newCenter.getId());
         deleteById(oldCenter.getId());
+    }
+
+    private void updateManagementByCenter(Center oldCenter){
+        Manager manager = managerService.getCurrentManagerByCenterId(oldCenter.getId());
+        managementService.updateEndDateByCenterIdAndManagerId(oldCenter.getId(), manager.getId());
     }
 
     private void saveHistory(Center center1, Center center2, Center newCenter){
@@ -209,13 +217,12 @@ public class CenterServiceImpl implements CenterService {
     }
 
     @Override
-    public boolean changeManager(Center center, Long mangerId) {
+    public boolean changeManager(Center center, Long managerId) {
         Manager manager = managerService.getCurrentManagerByCenterId(center.getId());
 
-        if(!manager.getId().equals(mangerId)){
-            Manager newManager = managerService.getActiveUserById(mangerId);
-            managementService.updateEndDateByCenterIdAndManagerId(center.getId(), mangerId);
-
+        if(!manager.getId().equals(managerId)){
+            Manager newManager = managerService.getActiveUserById(managerId);
+            managementService.updateEndDateByCenterIdAndManagerId(center.getId(), manager.getId());
             saveManagement(center, newManager);
         }
         return true;

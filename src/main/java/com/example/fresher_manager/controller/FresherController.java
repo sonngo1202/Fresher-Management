@@ -2,6 +2,7 @@ package com.example.fresher_manager.controller;
 
 import com.example.fresher_manager.entity.Fresher;
 import com.example.fresher_manager.entity.Result;
+import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.FresherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/freshers")
 public class FresherController {
     private final FresherService fresherService;
+
+    private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody Fresher fresher){
@@ -33,7 +36,7 @@ public class FresherController {
 
     @GetMapping("")
     public ResponseEntity<?> getAll(@RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAll(token.substring(7)));
+        return ResponseEntity.ok(fresherService.findAll(getUsernameByToken(token.substring(7))));
     }
 
     @PostMapping("/{id}/scoring-fresher")
@@ -44,16 +47,20 @@ public class FresherController {
 
     @GetMapping("/search/by-name")
     public ResponseEntity<?> getByName(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByName(token, keyword));
+        return ResponseEntity.ok(fresherService.findAllByName(getUsernameByToken(token.substring(7)), keyword));
     }
 
     @GetMapping("/search/by-email")
     public ResponseEntity<?> getByEmail(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByEmail(token, keyword));
+        return ResponseEntity.ok(fresherService.findAllByEmail(getUsernameByToken(token.substring(7)), keyword));
     }
 
     @GetMapping("/search/by-language")
     public ResponseEntity<?> getByLanguage(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByLanguage(token, keyword));
+        return ResponseEntity.ok(fresherService.findAllByLanguage(getUsernameByToken(token.substring(7)), keyword));
+    }
+
+    private String getUsernameByToken(String token){
+        return jwtTokenUtil.getUsernameFromToken(token);
     }
 }

@@ -17,28 +17,26 @@ public class CenterStatServiceImpl implements CenterStatService {
 
     private final ICenterRepository centerRepository;
 
-    private final JwtTokenUtil jwtTokenUtil;
-
     private final RoleCheckService roleCheckService;
 
     @Override
-    public List<CenterStat> getFresherCountByCenterWithPeriod(Date statisticStartDate, Date statisticEndDate, String token) {
+    public List<CenterStat> getFresherCountByCenterWithPeriod(Date statisticStartDate, Date statisticEndDate, String username) {
         if(roleCheckService.isAdmin()){
             return centerRepository.getFresherCountByCenterWithPeriod(statisticStartDate, statisticEndDate);
         }
         if(roleCheckService.isManager()){
-            return centerRepository.getFresherCountByCenterWithPeriodAndManagerUsername(statisticStartDate, statisticEndDate, jwtTokenUtil.getUsernameFromToken(token));
+            return centerRepository.getFresherCountByCenterWithPeriodAndManagerUsername(statisticStartDate, statisticEndDate, username);
         }
         return null;
     }
 
     @Override
-    public List<CenterStat> getFresherCountByCenterWithCurrentDate(String token) {
+    public List<CenterStat> getFresherCountByCenterWithCurrentDate(String username) {
         if(roleCheckService.isAdmin()){
             return centerRepository.getFresherCountByCenterWithCurrentDate();
         }
         if(roleCheckService.isManager()){
-            return centerRepository.getFresherCountByCenterWithCurrentDateAndManagerUsername(jwtTokenUtil.getUsernameFromToken(token));
+            return centerRepository.getFresherCountByCenterWithCurrentDateAndManagerUsername(username);
         }
         return null;
     }

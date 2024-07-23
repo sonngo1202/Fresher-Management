@@ -36,7 +36,7 @@ CREATE TABLE `history` (
   CONSTRAINT `FK5dwxkqmttkblike6w53hbs9c5` FOREIGN KEY (`new_center_id`) REFERENCES `center` (`id`),
   CONSTRAINT `FK5eox98h6ctev6291279ky1r6x` FOREIGN KEY (`center2_id`) REFERENCES `center` (`id`),
   CONSTRAINT `FKab0pr6ov545b8pi4809os0dpw` FOREIGN KEY (`center1_id`) REFERENCES `center` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `history` (
 
 LOCK TABLES `history` WRITE;
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` VALUES (1,'2024-07-12 07:34:07.867000',NULL,7,7,8);
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-11 16:35:17
+-- Dump completed on 2024-07-23  9:53:21

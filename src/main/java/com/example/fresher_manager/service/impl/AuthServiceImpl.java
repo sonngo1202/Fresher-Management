@@ -26,18 +26,30 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public BearerToken login(LoginRequest loginRequestDTO) {
+    public BearerToken login(LoginRequest loginRequest) {
+        authenticate(loginRequest);
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
+
+        checkDelete(userDetails);
+
+        final String accessToken = jwtTokenUtil.generateToken(userDetails);
+        final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
+        return new BearerToken(accessToken, refreshToken);
+    }
+
+    private void authenticate(LoginRequest loginRequest){
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
             log.error("Incorrect username or password");
             throw new BadCredentialsException("Incorrect username or password");
         }
+    }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequestDTO.getUsername());
-
+    private void checkDelete(UserDetails userDetails){
         CustomUserDetails customUserDetails;
         if (userDetails instanceof CustomUserDetails) {
             customUserDetails = (CustomUserDetails) userDetails;
@@ -45,14 +57,10 @@ public class AuthServiceImpl implements AuthService {
                 log.error("User account has been deleted");
                 throw new ValidationException("User account has been deleted");
             }
-        } else {
-            log.error("Invalid user details");
-            throw new ValidationException("Invalid user details");
+            return;
         }
-
-        final String accessToken = jwtTokenUtil.generateToken(userDetails);
-        final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
-        return new BearerToken(accessToken, refreshToken);
+        log.error("Invalid user details");
+        throw new ValidationException("Invalid user details");
     }
 
     @Override

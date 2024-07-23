@@ -15,5 +15,5 @@ public interface CenterService {
     boolean assignFresherToCenter(Long id, Long fresherId, Long courseId);
     boolean merge(Long idCenter1, Long idCenter2, CenterRequest newCenter);
     Center getActiveCenterById(Long id);
-    boolean changeManager(Center center, Long mangerId);
+    boolean changeManager(Center center, Long managerId);
 }

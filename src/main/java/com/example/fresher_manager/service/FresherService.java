@@ -9,8 +9,8 @@ public interface FresherService extends UserService<Fresher>{
     boolean deleteById(Long id);
     boolean updateById(Long id, Fresher fresher);
     boolean scoringForFresher(Long id, Result result);
-    List<Fresher> findAllByName(String token, String keyword);
-    List<Fresher> findAllByEmail(String token, String keyword);
-    List<Fresher> findAllByLanguage(String token, String keyword);
-    List<Fresher> findAll(String token);
+    List<Fresher> findAllByName(String username, String keyword);
+    List<Fresher> findAllByEmail(String username, String keyword);
+    List<Fresher> findAllByLanguage(String username, String keyword);
+    List<Fresher> findAll(String username);
 }

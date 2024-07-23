@@ -62,9 +62,10 @@ public interface IFresherRepository extends JpaRepository<Fresher, Long> {
             "    JOIN course c ON c.id = e.course_id " +
             "    JOIN center ce ON ce.id = c.center_id " +
             "    JOIN management me ON me.center_id = ce.id " +
+            "    JOIN record re ON re.id = me.id " +
             "    JOIN manager m ON m.id = me.manager_id " +
             "    JOIN user u ON u.id = m.id " +
-            "    WHERE u.username = :managerUsername " +
+            "    WHERE u.username = :managerUsername AND re.end_date IS NULL " +
             "    GROUP BY f.id " +
             "    HAVING COUNT(r.id) >= 3 " +
             ") AS avg_scores " +

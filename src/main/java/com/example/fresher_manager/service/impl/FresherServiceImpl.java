@@ -32,7 +32,6 @@ public class FresherServiceImpl implements FresherService {
     private final PasswordEncoder passwordEncoder;
     private final FresherValidator fresherValidator;
     private final RoleCheckService roleCheckService;
-    private final JwtTokenUtil jwtTokenUtil;
     private final TestService testService;
     private final ResultService resultService;
     private final KeywordValidator keywordValidator;
@@ -99,21 +98,21 @@ public class FresherServiceImpl implements FresherService {
 
     @Override
     @Cacheable("freshers")
-    public List<Fresher> findAll(String token) {
+    public List<Fresher> findAll(String username) {
         if(roleCheckService.isAdmin()){
             return fresherRepository.findAll();
         }
         if(roleCheckService.isManager()){
-            return fresherRepository.findByManagerUsername(jwtTokenUtil.getUsernameFromToken(token));
+            return fresherRepository.findByManagerUsername(username);
         }
         return null;
     }
 
     @Override
-    public List<Fresher> findAllByName(String token, String keyword) {
+    public List<Fresher> findAllByName(String username, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(token);
+        List<Fresher> listAll = findAll(username);
 
         return listAll.stream()
                 .filter(fresher ->
@@ -123,10 +122,10 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
-    public List<Fresher> findAllByEmail(String token, String keyword) {
+    public List<Fresher> findAllByEmail(String username, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(token);
+        List<Fresher> listAll = findAll(username);
 
         return listAll.stream()
                 .filter(fresher -> fresher.getEmail().toLowerCase().contains(keyword.toLowerCase()))
@@ -134,10 +133,10 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
-    public List<Fresher> findAllByLanguage(String token, String keyword) {
+    public List<Fresher> findAllByLanguage(String username, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(token);
+        List<Fresher> listAll = findAll(username);
 
         return listAll.stream()
                 .filter(fresher -> fresher.getLanguage().getName().toLowerCase().contains(keyword.toLowerCase()))
