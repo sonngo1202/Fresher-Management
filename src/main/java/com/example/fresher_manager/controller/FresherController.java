@@ -36,7 +36,7 @@ public class FresherController {
 
     @GetMapping("")
     public ResponseEntity<?> getAll(@RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAll(getUsernameByToken(token.substring(7))));
+        return ResponseEntity.ok(fresherService.findAllWithAdminOrManager(getUsernameByToken(token.substring(7))));
     }
 
     @PostMapping("/{id}/scoring-fresher")
@@ -47,17 +47,17 @@ public class FresherController {
 
     @GetMapping("/search/by-name")
     public ResponseEntity<?> getByName(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByName(getUsernameByToken(token.substring(7)), keyword));
+        return ResponseEntity.ok(fresherService.findAllByNameWithAdminOrManager(getUsernameByToken(token.substring(7)), keyword));
     }
 
     @GetMapping("/search/by-email")
     public ResponseEntity<?> getByEmail(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByEmail(getUsernameByToken(token.substring(7)), keyword));
+        return ResponseEntity.ok(fresherService.findAllByEmailWithAdminOrManager(getUsernameByToken(token.substring(7)), keyword));
     }
 
     @GetMapping("/search/by-language")
     public ResponseEntity<?> getByLanguage(@RequestParam("key") String keyword, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(fresherService.findAllByLanguage(getUsernameByToken(token.substring(7)), keyword));
+        return ResponseEntity.ok(fresherService.findAllByLanguageWithAdminOrManager(getUsernameByToken(token.substring(7)), keyword));
     }
 
     private String getUsernameByToken(String token){

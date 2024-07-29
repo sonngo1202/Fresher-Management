@@ -63,6 +63,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetInfo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"info"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -319,17 +347,17 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/centers/8/courses/2/freshers/90",
+							"raw": "{{baseUrl}}/centers/7/courses/1/freshers/14",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"centers",
-								"8",
+								"7",
 								"courses",
-								"2",
+								"1",
 								"freshers",
-								"90"
+								"14"
 							]
 						}
 					},
@@ -352,7 +380,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"7\"\r\n}",
+							"raw": "{\r\n    \"id\":\"7\",\r\n    \"managerId\":\"8\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -656,7 +684,7 @@
 			"name": "Statistic",
 			"item": [
 				{
-					"name": "StatFresherByCenter",
+					"name": "StatFresherByCenterFilter",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -671,13 +699,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/stats/fresher-center?startDate=2024-07-01&endDate=2024-07-31",
+							"raw": "{{baseUrl}}/stats/fresher-center/filter?startDate=2024-07-01&endDate=2024-07-31",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"stats",
-								"fresher-center"
+								"fresher-center",
+								"filter"
 							],
 							"query": [
 								{
@@ -716,6 +745,34 @@
 							"path": [
 								"stats",
 								"fresher-score"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "StatFresherByCenter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stats/fresher-center",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stats",
+								"fresher-center"
 							]
 						}
 					},

@@ -98,21 +98,21 @@ public class FresherServiceImpl implements FresherService {
 
     @Override
     @Cacheable("freshers")
-    public List<Fresher> findAll(String username) {
+    public List<Fresher> findAllWithAdminOrManager(String usernameAdminOrManager) {
         if(roleCheckService.isAdmin()){
             return fresherRepository.findAll();
         }
         if(roleCheckService.isManager()){
-            return fresherRepository.findByManagerUsername(username);
+            return fresherRepository.findByManagerUsername(usernameAdminOrManager);
         }
         return null;
     }
 
     @Override
-    public List<Fresher> findAllByName(String username, String keyword) {
+    public List<Fresher> findAllByNameWithAdminOrManager(String usernameAdminOrManager, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(username);
+        List<Fresher> listAll = findAllWithAdminOrManager(usernameAdminOrManager);
 
         return listAll.stream()
                 .filter(fresher ->
@@ -122,10 +122,10 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
-    public List<Fresher> findAllByEmail(String username, String keyword) {
+    public List<Fresher> findAllByEmailWithAdminOrManager(String usernameAdminOrManager, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(username);
+        List<Fresher> listAll = findAllWithAdminOrManager(usernameAdminOrManager);
 
         return listAll.stream()
                 .filter(fresher -> fresher.getEmail().toLowerCase().contains(keyword.toLowerCase()))
@@ -133,10 +133,10 @@ public class FresherServiceImpl implements FresherService {
     }
 
     @Override
-    public List<Fresher> findAllByLanguage(String username, String keyword) {
+    public List<Fresher> findAllByLanguageWithAdminOrManager(String usernameAdminOrManager, String keyword) {
         keywordValidator.validate(keyword);
 
-        List<Fresher> listAll = findAll(username);
+        List<Fresher> listAll = findAllWithAdminOrManager(usernameAdminOrManager);
 
         return listAll.stream()
                 .filter(fresher -> fresher.getLanguage().getName().toLowerCase().contains(keyword.toLowerCase()))

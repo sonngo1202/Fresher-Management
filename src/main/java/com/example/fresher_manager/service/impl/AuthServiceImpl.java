@@ -3,12 +3,17 @@ package com.example.fresher_manager.service.impl;
 import com.example.fresher_manager.dto.BearerToken;
 import com.example.fresher_manager.dto.LoginRequest;
 import com.example.fresher_manager.dto.TokenRefreshRequest;
+import com.example.fresher_manager.entity.Admin;
+import com.example.fresher_manager.entity.Fresher;
+import com.example.fresher_manager.entity.Manager;
 import com.example.fresher_manager.entity.User;
 import com.example.fresher_manager.exception.error.ValidationException;
+import com.example.fresher_manager.repository.IUserRepository;
 import com.example.fresher_manager.security.CustomUserDetails;
 import com.example.fresher_manager.security.CustomUserDetailsService;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.AuthService;
+import com.example.fresher_manager.service.RoleCheckService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
+    private final RoleCheckService roleCheckService;
+    private final IUserRepository userRepository;
 
     @Override
     public BearerToken login(LoginRequest loginRequest) {
@@ -68,6 +75,17 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = tokenRefreshRequest.getRefreshToken();
         String newAccessToken =  jwtTokenUtil.generateAccessTokenFromRefreshToken(refreshToken);
         return new BearerToken(newAccessToken, refreshToken);
+    }
+
+    @Override
+    public User getInfo(String username) {
+        if(roleCheckService.isAdmin()){
+            return (Admin) userRepository.findByUsername(username);
+        }
+        if(roleCheckService.isManager()){
+            return (Manager) userRepository.findByUsername(username);
+        }
+        return (Fresher) userRepository.findByUsername(username);
     }
 
 }

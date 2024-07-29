@@ -45,7 +45,6 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.findAllByStatusTrue();
     }
 
-
     @Override
     public Manager getCurrentManagerByCenterId(Long centerId) {
         return managerRepository.findManagerByCenterIdAndEndDateIsNull(centerId);

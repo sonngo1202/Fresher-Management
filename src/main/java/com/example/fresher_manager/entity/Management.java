@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 public class Management extends Record{
 
-    @JsonIgnoreProperties("courses")
+    @JsonIgnoreProperties({"courses", "histories"})
     @ManyToOne
     @JoinColumn(name = "center_id")
     private Center center;

@@ -8,4 +8,5 @@ import com.example.fresher_manager.entity.User;
 public interface AuthService {
     BearerToken login(LoginRequest loginRequestDTO);
     BearerToken refreshAccessToken(TokenRefreshRequest tokenRefreshRequest);
+    User getInfo(String username);
 }
