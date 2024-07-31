@@ -27,17 +27,17 @@ public class History {
     @Column(name = "des")
     private String des;
 
-    @JsonIgnoreProperties("histories")
+    @JsonIgnoreProperties({"histories", "courses"})
     @ManyToOne
     @JoinColumn(name = "center1_id", nullable = false)
     private Center oldCenter1;
 
-    @JsonIgnoreProperties("histories")
+    @JsonIgnoreProperties({"histories", "courses"})
     @ManyToOne
     @JoinColumn(name = "center2_id", nullable = false)
     private Center oldCenter2;
 
-    @JsonIgnoreProperties("histories")
+    @JsonIgnoreProperties({"histories", "courses"})
     @ManyToOne
     @JoinColumn(name = "new_center_id", nullable = false)
     private Center newCenter;

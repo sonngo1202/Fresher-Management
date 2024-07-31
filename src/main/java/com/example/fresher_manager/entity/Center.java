@@ -1,6 +1,7 @@
 package com.example.fresher_manager.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,7 @@ public class Center {
     @OneToMany(mappedBy = "center")
     private List<Management> managements;
 
+    @JsonIgnoreProperties("enrollments")
     @OneToMany(mappedBy = "center")
     private List<Course> courses;
 

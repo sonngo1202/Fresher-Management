@@ -2,9 +2,8 @@ package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.CenterStat;
 import com.example.fresher_manager.repository.ICenterRepository;
-import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.CenterStatService;
-import com.example.fresher_manager.service.RoleCheckService;
+import com.example.fresher_manager.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class CenterStatServiceImpl implements CenterStatService {
 
     private final ICenterRepository centerRepository;
 
-    private final RoleCheckService roleCheckService;
+    private final RoleService roleCheckService;
 
     @Override
     public List<CenterStat> getFresherCountByCenterWithPeriod(Date statisticStartDate, Date statisticEndDate, String username) {

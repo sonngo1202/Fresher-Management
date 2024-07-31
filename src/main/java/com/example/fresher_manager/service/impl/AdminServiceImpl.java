@@ -1,15 +1,17 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Admin;
+import com.example.fresher_manager.entity.Role;
+import com.example.fresher_manager.entity.RoleName;
 import com.example.fresher_manager.repository.IAdminRepository;
 import com.example.fresher_manager.service.AdminService;
+import com.example.fresher_manager.service.RoleService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +19,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final PasswordEncoder passwordEncoder;
     private final IAdminRepository adminRepository;
-
+    private final RoleService roleService;
 
     @Override
     public void saveDefault() {
@@ -29,6 +31,9 @@ public class AdminServiceImpl implements AdminService {
         admin.setPhone("0562202977");
         admin.setUsername("ngoson");
         admin.setPassword(passwordEncoder.encode("@Son12345"));
+
+        Role role = roleService.findByName(RoleName.ADMIN);
+        admin.setRoles(Collections.singletonList(role));
 
         adminRepository.save(admin);
     }

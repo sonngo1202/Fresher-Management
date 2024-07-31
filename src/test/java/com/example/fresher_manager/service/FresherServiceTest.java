@@ -196,14 +196,14 @@ public class FresherServiceTest {
     @Test
     void saveWithSuitableData(){
         Fresher fresher = new Fresher();
-        fresher.setFirstname("Long");
+        fresher.setFirstname("Anh");
         fresher.setLastname("Nguyen");
-        fresher.setEmail("nguyenlong@gmail.com");
-        fresher.setPhone("0748923134");
-        fresher.setDob(convertStringToSqlDate("2002-10-10"));
-        fresher.setUsername("nguyenlong");
-        fresher.setPassword("@Long12345");
-        fresher.setCode("NL005");
+        fresher.setEmail("nguyenanh@gmail.com");
+        fresher.setPhone("0748923105");
+        fresher.setDob(convertStringToSqlDate("2005-12-10"));
+        fresher.setUsername("nguyenanh");
+        fresher.setPassword("@Anh12345");
+        fresher.setCode("NA005");
         Language language = new Language();
         language.setId(1L);
         fresher.setLanguage(language);

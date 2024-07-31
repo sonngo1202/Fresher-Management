@@ -13,7 +13,7 @@ import com.example.fresher_manager.security.CustomUserDetails;
 import com.example.fresher_manager.security.CustomUserDetailsService;
 import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.AuthService;
-import com.example.fresher_manager.service.RoleCheckService;
+import com.example.fresher_manager.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
-    private final RoleCheckService roleCheckService;
+    private final RoleService roleCheckService;
     private final IUserRepository userRepository;
 
     @Override

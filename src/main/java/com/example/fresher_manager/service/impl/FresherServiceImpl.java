@@ -1,13 +1,9 @@
 package com.example.fresher_manager.service.impl;
 
-import com.example.fresher_manager.entity.Fresher;
-import com.example.fresher_manager.entity.Result;
-import com.example.fresher_manager.entity.Test;
+import com.example.fresher_manager.entity.*;
 import com.example.fresher_manager.exception.error.MaxTestCompletedException;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
-import com.example.fresher_manager.exception.error.ValidationException;
 import com.example.fresher_manager.repository.IFresherRepository;
-import com.example.fresher_manager.security.JwtTokenUtil;
 import com.example.fresher_manager.service.*;
 import com.example.fresher_manager.validator.FresherValidator;
 import com.example.fresher_manager.validator.KeywordValidator;
@@ -19,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,10 +25,11 @@ public class FresherServiceImpl implements FresherService {
     public static final int MAX_TESTS = 3;
 
     private final LanguageService languageService;
+    private final RoleService roleService;
     private final IFresherRepository fresherRepository;
     private final PasswordEncoder passwordEncoder;
     private final FresherValidator fresherValidator;
-    private final RoleCheckService roleCheckService;
+    private final RoleService roleCheckService;
     private final TestService testService;
     private final ResultService resultService;
     private final KeywordValidator keywordValidator;
@@ -43,6 +41,9 @@ public class FresherServiceImpl implements FresherService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setLanguage(languageService.findById(user.getLanguage().getId()));
+
+        Role role = roleService.findByName(RoleName.FRESHER);
+        user.setRoles(Collections.singletonList(role));
 
         fresherRepository.save(user);
 

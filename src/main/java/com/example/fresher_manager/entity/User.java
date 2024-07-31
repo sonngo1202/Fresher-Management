@@ -45,7 +45,7 @@ public abstract class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_Role",
             joinColumns = @JoinColumn(name = "user_id"),

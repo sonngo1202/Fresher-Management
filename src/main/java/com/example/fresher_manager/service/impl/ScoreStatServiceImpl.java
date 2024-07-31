@@ -2,10 +2,9 @@ package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.ScoreStat;
 import com.example.fresher_manager.repository.IFresherRepository;
-import com.example.fresher_manager.service.RoleCheckService;
+import com.example.fresher_manager.service.RoleService;
 import com.example.fresher_manager.service.ScoreStatService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,7 +15,7 @@ public class ScoreStatServiceImpl implements ScoreStatService {
 
     private final IFresherRepository fresherRepository;
 
-    private final RoleCheckService roleCheckService;
+    private final RoleService roleCheckService;
 
     @Override
     public List<ScoreStat> getFresherCountByScore(String username) {

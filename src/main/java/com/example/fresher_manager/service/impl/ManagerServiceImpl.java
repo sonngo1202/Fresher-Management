@@ -1,15 +1,19 @@
 package com.example.fresher_manager.service.impl;
 
 import com.example.fresher_manager.entity.Manager;
+import com.example.fresher_manager.entity.Role;
+import com.example.fresher_manager.entity.RoleName;
 import com.example.fresher_manager.exception.error.ResourceNotFoundException;
 import com.example.fresher_manager.repository.IManagerRepository;
 import com.example.fresher_manager.service.ManagerService;
+import com.example.fresher_manager.service.RoleService;
 import com.example.fresher_manager.validator.ManagerValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,6 +22,7 @@ import java.util.List;
 public class ManagerServiceImpl implements ManagerService {
 
     private final IManagerRepository managerRepository;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final ManagerValidator managerValidator;
 
@@ -26,6 +31,10 @@ public class ManagerServiceImpl implements ManagerService {
         managerValidator.validateCreate(manager);
 
         manager.setPassword(passwordEncoder.encode(manager.getPassword()));
+
+        Role role = roleService.findByName(RoleName.MANAGER);
+        manager.setRoles(Collections.singletonList(role));
+
         managerRepository.save(manager);
         return true;
     }
